@@ -1,6 +1,44 @@
 <x-layout>
-    <!-- Hero Section -->
-    <div class="bg-red-900 text-white grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
+    <style>
+        .parallax-element {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .parallax-element.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hover-card-effect {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            will-change: transform;
+        }
+        .hover-card-effect:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            z-index: 10;
+        }
+        .icon-animate {
+            opacity: 0;
+            transform: scale(0.5) rotate(-15deg);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .icon-animate.show-icon {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+        .bg-parallax-layer {
+            will-change: transform;
+            transform: scale(1.2); 
+            height: 130%; 
+            top: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+    <div class="parallax-element bg-red-900 text-white grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
         <div class="flex justify-center items-center px-4 sm:px-6 md:px-8 lg:px-12 py-8 lg:py-0">
             <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center lg:text-left">
                 Kami adalah <strong class="text-yellow-100">pilihan yang terbaik</strong> untuk menyelesaikan setiap permasalahan hukum anda.
@@ -10,21 +48,15 @@
             <img src="{{ Vite::asset('resources/asset/home/bg1.png') }}" alt="background" class="w-full h-full object-cover rounded-tl-none lg:rounded-tl-[60px]">
         </div>
     </div>
-
     <div class="bg-white py-8 sm:py-12 md:py-15"></div>
-
-    <!-- Section About Us dengan Background -->
-    <div class="relative w-full">
-        <!-- Background Image Layer -->
-        <div class="absolute top-0 left-0 w-full h-full -z-10">
-            <div class="bg-black/80 w-full h-full">
+    <div class="relative w-full overflow-hidden min-h-[500px]"> 
+        <div class="absolute inset-0 w-full h-full -z-10 overflow-hidden">
+            <div class="bg-black/80 w-full h-full relative">
                 <img src="{{ Vite::asset('resources/asset/home/bg1.png') }}" alt="background"
-                    class="w-full h-full object-cover opacity-30">
+                    class="bg-parallax-layer absolute left-0 w-full object-cover opacity-30">
             </div>
         </div>
-
-        <!-- Content Layer -->
-        <div class="relative z-10 px-4 sm:px-6 md:px-12 lg:px-20 py-12 sm:py-16 md:py-20 text-white">
+        <div class="parallax-element relative z-10 px-4 sm:px-6 md:px-12 lg:px-20 py-12 sm:py-16 md:py-20 text-white">
             <div class="rounded-lg p-4 sm:p-6 md:p-8 lg:p-12 space-y-4 sm:space-y-6">
                 <p class="text-justify text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed">
                     ATS LAW FIRM pertama kali berdiri pada tanggal 27 Oktober 2015 di Jakarta dengan nama Ahmad,
@@ -55,40 +87,38 @@
             </div>
         </div>
     </div>
-
-    <!-- Section Cards - Kenapa Memilih Kami -->
     <div class="bg-gradient-to-b from-black/80 to-white px-4 sm:px-6 md:px-12 lg:px-20 pt-8 pb-12 sm:pb-16 md:pb-20">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <div class="bg-white text-black shadow-2xl rounded-lg px-4 sm:px-6 py-6 sm:py-8 hover:shadow-xl transition-shadow">
+            <div class="parallax-element hover-card-effect bg-white text-black shadow-2xl rounded-lg px-4 sm:px-6 py-6 sm:py-8">
                 <img src="{{ Vite::asset('resources/asset/icon/businessman.png') }}" alt=""
-                    class="mx-auto mt-2 mb-4 sm:mb-6 h-16 sm:h-20">
+                    class="icon-animate mx-auto mt-2 mb-4 sm:mb-6 h-16 sm:h-20">
                 <h1 class="text-center text-lg sm:text-xl font-bold mb-3 sm:mb-4">Profesional</h1>
                 <p class="text-justify text-xs sm:text-sm leading-relaxed">
                     Kami memiliki konsultan hukum dengan keterampilan, pengetahuan dan sikap yang tepat dalam memecahkan
                     masalah hukum klien serta terjaminnya kerahasian klien.
                 </p>
             </div>
-            <div class="bg-white text-black shadow-2xl rounded-lg px-4 sm:px-6 py-6 sm:py-8 hover:shadow-xl transition-shadow">
+            <div class="parallax-element hover-card-effect bg-white text-black shadow-2xl rounded-lg px-4 sm:px-6 py-6 sm:py-8" style="transition-delay: 100ms;">
                 <img src="{{ Vite::asset('resources/asset/icon/time-management.png') }}" alt=""
-                    class="mx-auto mt-2 mb-4 sm:mb-6 h-16 sm:h-20">
+                    class="icon-animate mx-auto mt-2 mb-4 sm:mb-6 h-16 sm:h-20">
                 <h1 class="text-center text-lg sm:text-xl font-bold mb-3 sm:mb-4">Berdedikasi</h1>
                 <p class="text-justify text-xs sm:text-sm leading-relaxed">
                     Kami memiliki konsultan hukum dengan keterampilan, pengetahuan dan sikap yang tepat dalam memecahkan
                     masalah hukum klien serta terjaminnya kerahasian klien.
                 </p>
             </div>
-            <div class="bg-white text-black shadow-2xl rounded-lg px-4 sm:px-6 py-6 sm:py-8 hover:shadow-xl transition-shadow">
+            <div class="parallax-element hover-card-effect bg-white text-black shadow-2xl rounded-lg px-4 sm:px-6 py-6 sm:py-8" style="transition-delay: 200ms;">
                 <img src="{{ Vite::asset('resources/asset/icon/discipline.png') }}" alt=""
-                    class="mx-auto mt-2 mb-4 sm:mb-6 h-16 sm:h-20">
+                    class="icon-animate mx-auto mt-2 mb-4 sm:mb-6 h-16 sm:h-20">
                 <h1 class="text-center text-lg sm:text-xl font-bold mb-3 sm:mb-4">Disiplin</h1>
                 <p class="text-justify text-xs sm:text-sm leading-relaxed">
                     Kami memiliki konsultan hukum dengan keterampilan, pengetahuan dan sikap yang tepat dalam memecahkan
                     masalah hukum klien serta terjaminnya kerahasian klien.
                 </p>
             </div>
-            <div class="bg-white text-black shadow-2xl rounded-lg px-4 sm:px-6 py-6 sm:py-8 hover:shadow-xl transition-shadow">
+            <div class="parallax-element hover-card-effect bg-white text-black shadow-2xl rounded-lg px-4 sm:px-6 py-6 sm:py-8" style="transition-delay: 300ms;">
                 <img src="{{ Vite::asset('resources/asset/icon/effective.png') }}" alt=""
-                    class="mx-auto mt-2 mb-4 sm:mb-6 h-16 sm:h-20">
+                    class="icon-animate mx-auto mt-2 mb-4 sm:mb-6 h-16 sm:h-20">
                 <h1 class="text-center text-lg sm:text-xl font-bold mb-3 sm:mb-4">Efektif dan Efisien</h1>
                 <p class="text-xs sm:text-sm leading-relaxed text-justify">
                     Kami memiliki konsultan hukum dengan keterampilan, pengetahuan dan sikap yang tepat dalam memecahkan
@@ -97,11 +127,9 @@
             </div>
         </div>
     </div>
-
-    <!-- Konten Selanjutnya -->
-    <div class="bg-white shadow-lg grid grid-cols-1 lg:grid-cols-2 py-12 sm:py-16 md:py-20 gap-6 lg:gap-0">
+    <div class="parallax-element bg-white shadow-lg grid grid-cols-1 lg:grid-cols-2 py-12 sm:py-16 md:py-20 gap-6 lg:gap-0">
         <div class="text-center font-bold text-xl sm:text-2xl md:text-3xl flex px-4 sm:px-8 md:px-12 lg:px-20 justify-center lg:justify-end items-center order-1 lg:order-1">
-            <h1>KONTENT SELANJUTNYA</h1>
+            <h1>KONTEN SELANJUTNYA</h1>
         </div>
         <div class="text-sm sm:text-base md:text-lg lg:text-xl px-4 sm:px-8 md:px-10 lg:px-10 flex justify-center lg:justify-start items-center order-2 lg:order-2">
             <p class="text-center lg:text-left">
@@ -110,9 +138,7 @@
             </p>
         </div>
     </div>
-
-    <!-- Profile Section -->
-    <div class="bg-gray-200 grid grid-cols-1 lg:grid-cols-2 px-4 sm:px-6 md:px-12 lg:px-20 py-12 sm:py-16 md:py-20 gap-6 lg:gap-8">
+    <div class="parallax-element bg-gray-200 grid grid-cols-1 lg:grid-cols-2 px-4 sm:px-6 md:px-12 lg:px-20 py-12 sm:py-16 md:py-20 gap-6 lg:gap-8">
         <div class="w-full flex justify-center items-center">
             <img src="{{ Vite::asset('resources/asset/home/owner.png') }}" alt="" class="w-full max-w-md lg:max-w-full h-auto object-contain">
         </div>
@@ -151,9 +177,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Part Of Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 py-12 sm:py-16 md:py-20 px-4 sm:px-6">
+    <div class="parallax-element grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div class="flex justify-center items-center text-2xl sm:text-3xl md:text-4xl font-bold">
             <h1>Part Of</h1>
         </div>
@@ -161,34 +185,23 @@
             <img src="{{ Vite::asset('resources/asset/home/part-of.png') }}" alt="" class="w-full max-w-sm lg:max-w-md h-auto object-contain">
         </div>
     </div>
-
-    <!-- Ruang Lingkup Jasa Hukum -->
-    <div class="relative">
-        <!-- Background -->
-        <div class="absolute inset-0 -z-10">
-            <div class="bg-black/80 w-full h-full">
+    <div class="relative overflow-hidden min-h-[600px]">
+        <div class="absolute inset-0 -z-10 overflow-hidden">
+            <div class="bg-black/80 w-full h-full relative">
                 <img src="{{ Vite::asset('resources/asset/home/bg3.png') }}" alt="background"
-                    class="w-full h-full object-cover opacity-30">
+                    class="bg-parallax-layer absolute left-0 w-full object-cover opacity-30">
             </div>
         </div>
-    
-        <!-- Content Container -->
         <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-            
-            <!-- Header Section -->
             <div class="text-center mb-8 sm:mb-12">
                 <h2 class="text-base sm:text-lg md:text-xl text-gray-300 mb-2">Ruang Lingkup</h2>
                 <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">Jasa Hukum</h1>
             </div>
-    
-            <!-- Cards Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
-                
-                <!-- Card 1 -->
-                <div class="bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center hover:transform hover:scale-105 transition-transform duration-300">
+                <div class="parallax-element hover-card-effect bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 flex items-center justify-center">
                         <img src="{{ Vite::asset('resources/asset/icon/legal-dokumen.png') }}" alt="Legal Document Icon"
-                            class="w-full h-full object-contain">
+                            class="icon-animate w-full h-full object-contain">
                     </div>
                     <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800">Jasa Hukum Retainer</h3>
                     <p class="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed text-justify">
@@ -197,94 +210,78 @@
                         secara rutin dan berkesinambungan sesuai dengan kebutuhan perusahaan.
                     </p>
                 </div>
-    
-                <!-- Card 2 -->
-                <div class="bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center hover:transform hover:scale-105 transition-transform duration-300">
+                <div class="parallax-element hover-card-effect bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center" style="transition-delay: 100ms;">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 flex items-center justify-center">
                         <img src="{{ Vite::asset('resources/asset/icon/legal-dokumen2.png') }}" alt="Legal Document Icon"
-                            class="w-full h-full object-contain">
+                            class="icon-animate w-full h-full object-contain">
                     </div>
                     <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800">Jasa Hukum per Kasus</h3>
                     <p class="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed text-justify">
                         Pelayanan jasa hukum yang akan diberikan kepada perusahaan apabila di pandang permasalahan hukum tersebut rumit dan tidak masuk dalam kriteria jasa hukum retainer, maka kami akan membuat penawaran jasa hukum secara terpisah yang mencangkup lingkup pekerjaan, biaya dan tata cara pembayaran.
                     </p>
                 </div>
-    
-                <!-- Card 3 -->
-                <div class="bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center hover:transform hover:scale-105 transition-transform duration-300 md:col-span-2 lg:col-span-1">
+                <div class="parallax-element hover-card-effect bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center md:col-span-2 lg:col-span-1" style="transition-delay: 200ms;">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 flex items-center justify-center">
                         <img src="{{ Vite::asset('resources/asset/icon/palu.png') }}" alt="Legal Document Icon"
-                            class="w-full h-full object-contain">
+                            class="icon-animate w-full h-full object-contain">
                     </div>
                     <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800">Jasa Hukum Litigasi</h3>
                     <p class="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed text-justify">
                         Pelayanan jasa hukum ini meliputi tindakan-tindakan hukum terkait dengan proses di lembaga peradilan, kepolisian, kejaksaan dan lembaga lainnya baik yang bersifat perdata maupun pidana yang kaitanya dengan permasalahan hukum klien berbentuk perusahaan maupun perorangan.
                     </p>
                 </div>
-    
             </div>
         </div>
     </div>
-
-    <!-- Keahlian Kami Section -->
     <div class="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div class="text-center font-bold text-2xl sm:text-3xl md:text-4xl mb-8 sm:mb-10">
             <h1>Keahlian Kami</h1>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-7xl mx-auto">
-            <!-- Card Kepailitan -->
-            <div class="bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center hover:transform hover:scale-105 transition-transform duration-300">
+            <div class="parallax-element hover-card-effect bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center">
                 <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 flex items-center justify-center">
                     <img src="{{ Vite::asset('resources/asset/icon/bank-batang.png') }}" alt="Legal Document Icon"
-                        class="w-full h-full object-contain">
+                        class="icon-animate w-full h-full object-contain">
                 </div>
                 <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800">Kepailitan</h3>
                 <p class="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed text-justify">
                     Kami memberikan pelayanan jasa hukum terkait dengan kepailitan atau kebangkrutan perusahaan maupun perorangan namun tidak terbatas mekanisme penundaan kewajiban pembayaran utang baik dari kreditur maupun debitur yang sedang mengalami permasalahan keuangan untuk menjalankan usahanya.
                 </p>
             </div>
-
-            <!-- Card Korupsi -->
-            <div class="bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center hover:transform hover:scale-105 transition-transform duration-300">
+            <div class="parallax-element hover-card-effect bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center" style="transition-delay: 100ms;">
                 <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 flex items-center justify-center">
                     <img src="{{ Vite::asset('resources/asset/icon/bribe.png') }}" alt="Legal Document Icon"
-                        class="w-full h-full object-contain">
+                        class="icon-animate w-full h-full object-contain">
                 </div>
                 <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800">Korupsi</h3>
                 <p class="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed text-justify">
                     Kami berpengalaman menangani klien kami yang tersangkut perkara tindak pidana korupsi khususnya yang berkaitan dengan Komisi Pemberantasan Korupsi Republik Indonesia, oleh karenanya kami akan memberikan pelayanan jasa hukum yang terbaik demi tercapainya kepentingan hukum klien serta menjaga hak-hak klien kami.
                 </p>
             </div>
-
-            <!-- Card Ketenagakerjaan -->
-            <div class="bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center hover:transform hover:scale-105 transition-transform duration-300">
+            <div class="parallax-element hover-card-effect bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center" style="transition-delay: 200ms;">
                 <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 flex items-center justify-center">
                     <img src="{{ Vite::asset('resources/asset/icon/employee.png') }}" alt="Legal Document Icon"
-                        class="w-full h-full object-contain">
+                        class="icon-animate w-full h-full object-contain">
                 </div>
                 <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800">Ketenagakerjaan</h3>
                 <p class="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed text-justify">
                     Pelayanan jasa hukum ini meliputi pengaturan hak dan kewajiban pekerja dengan pengusaha dalam hal pendayagunaan tenaga kerja secara optimal, menyelesaikan perselisihan antara pekerja dengan pengusaha dan apabila diperlukan penyelesaian melalui Pengadilan Hubungan Industrial, maka kami akan memberikan pelayanan terbaik untuk klien kami.
                 </p>
             </div>
-
-            <!-- Card Perbankan -->
-            <div class="bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center hover:transform hover:scale-105 transition-transform duration-300">
+            <div class="parallax-element hover-card-effect bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center" style="transition-delay: 300ms;">
                 <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 flex items-center justify-center">
                     <img src="{{ Vite::asset('resources/asset/icon/bank.png') }}" alt="Legal Document Icon"
-                        class="w-full h-full object-contain">
+                        class="icon-animate w-full h-full object-contain">
                 </div>
                 <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800">Perbankan</h3>
                 <p class="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed text-justify">
                     Kami telah di percaya dalam menyelesaikan permasalahan perbankan seperti halnya kredit macet, Aset Yang Diambil Alih (AYDA), eksekusi hak tanggungan dan lain sebagainya, oleh karenanya setiap kami menyelesaikan permasalahan perbankan kami akan melihat perspektif dari bank maupun nasabah demi tercapainya kepastian hukum.
                 </p>
             </div>
-
-            <!-- Card Pertanahan -->
-            <div class="bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center hover:transform hover:scale-105 transition-transform duration-300 sm:col-span-2 lg:col-span-1">
+            <div class="parallax-element hover-card-effect bg-white shadow-2xl rounded-lg p-4 sm:p-6 lg:p-8 flex flex-col items-center text-center sm:col-span-2 lg:col-span-1" style="transition-delay: 400ms;">
                 <div class="w-16 h-16 sm:w-20 sm:h-20 mb-4 sm:mb-6 flex items-center justify-center">
                     <img src="{{ Vite::asset('resources/asset/icon/location-pin.png') }}" alt="Legal Document Icon"
-                        class="w-full h-full object-contain">
+                        class="icon-animate w-full h-full object-contain">
                 </div>
                 <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800">Pertanahan</h3>
                 <p class="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed text-justify">
@@ -293,7 +290,7 @@
             </div>
         </div>
     </div>
-    <div class="bg-gradient-to-b from-gray-50 to-white py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
+    <div class="parallax-element bg-gradient-to-b from-gray-50 to-white py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-8 sm:mb-12">
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">
@@ -302,32 +299,67 @@
                 <p class="text-sm sm:text-base text-gray-600">Dipercaya oleh perusahaan terkemuka</p>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
-                <div class="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 flex items-center justify-center hover:border-red-900 hover:shadow-lg transition-all duration-300">
-                    <img src="{{ Vite::asset('resources/asset/home/logo1.png') }}" alt="Logo 1" class="w-full h-auto max-h-16 sm:max-h-20 object-contain filter hover:brightness-110 transition-all">
+                @foreach(range(1, 8) as $i)
+                <div class="parallax-element bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 flex items-center justify-center hover:border-red-900 hover:shadow-lg transition-all duration-300" style="transition-delay: {{$i * 50}}ms">
+                    <img src="{{ Vite::asset('resources/asset/home/logo'.$i.'.png') }}" alt="Logo {{$i}}" class="w-full h-auto max-h-16 sm:max-h-20 object-contain filter hover:brightness-110 transition-all">
                 </div>
-                <div class="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 flex items-center justify-center hover:border-red-900 hover:shadow-lg transition-all duration-300">
-                    <img src="{{ Vite::asset('resources/asset/home/logo2.png') }}" alt="Logo 2" class="w-full h-auto max-h-16 sm:max-h-20 object-contain filter hover:brightness-110 transition-all">
-                </div>
-                <div class="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 flex items-center justify-center hover:border-red-900 hover:shadow-lg transition-all duration-300">
-                    <img src="{{ Vite::asset('resources/asset/home/logo3.png') }}" alt="Logo 3" class="w-full h-auto max-h-16 sm:max-h-20 object-contain filter hover:brightness-110 transition-all">
-                </div>
-                <div class="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 flex items-center justify-center hover:border-red-900 hover:shadow-lg transition-all duration-300">
-                    <img src="{{ Vite::asset('resources/asset/home/logo4.png') }}" alt="Logo 4" class="w-full h-auto max-h-16 sm:max-h-20 object-contain filter hover:brightness-110 transition-all">
-                </div>
-                <div class="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 flex items-center justify-center hover:border-red-900 hover:shadow-lg transition-all duration-300">
-                    <img src="{{ Vite::asset('resources/asset/home/logo5.png') }}" alt="Logo 5" class="w-full h-auto max-h-16 sm:max-h-20 object-contain filter hover:brightness-110 transition-all">
-                </div>
-                <div class="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 flex items-center justify-center hover:border-red-900 hover:shadow-lg transition-all duration-300">
-                    <img src="{{ Vite::asset('resources/asset/home/logo6.png') }}" alt="Logo 6" class="w-full h-auto max-h-16 sm:max-h-20 object-contain filter hover:brightness-110 transition-all">
-                </div>
-                <div class="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 flex items-center justify-center hover:border-red-900 hover:shadow-lg transition-all duration-300">
-                    <img src="{{ Vite::asset('resources/asset/home/logo7.png') }}" alt="Logo 7" class="w-full h-auto max-h-16 sm:max-h-20 object-contain filter hover:brightness-110 transition-all">
-                </div>
-                <div class="bg-white border-2 border-gray-200 rounded-xl p-6 sm:p-8 flex items-center justify-center hover:border-red-900 hover:shadow-lg transition-all duration-300">
-                    <img src="{{ Vite::asset('resources/asset/home/logo8.png') }}" alt="Logo 8" class="w-full h-auto max-h-16 sm:max-h-20 object-contain filter hover:brightness-110 transition-all">
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
     <div class=""></div>    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeObserverOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                        fadeObserver.unobserve(entry.target); // Hanya animasi sekali
+                    }
+                });
+            }, fadeObserverOptions);
+            const parallaxElements = document.querySelectorAll('.parallax-element');
+            parallaxElements.forEach(el => fadeObserver.observe(el));
+            const iconObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('show-icon');
+                        }, 100);
+                        iconObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            const icons = document.querySelectorAll('.icon-animate');
+            icons.forEach(icon => iconObserver.observe(icon));
+            let ticking = false;
+            function parallaxScroll() {
+                const bgImages = document.querySelectorAll('.bg-parallax-layer');
+                bgImages.forEach((bg) => {
+                    const parent = bg.parentElement;
+                    if (parent) {
+                        const rect = parent.getBoundingClientRect();
+                        if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+                            const speed = 0.5; // Kecepatan lebih tinggi agar terlihat jelas
+                            const yPos = rect.top * speed;
+                            bg.style.transform = `translateY(${yPos}px) scale(1.2)`;
+                        }
+                    }
+                });
+                ticking = false;
+            }
+            function requestTick() {
+                if (!ticking) {
+                    window.requestAnimationFrame(parallaxScroll);
+                    ticking = true;
+                }
+            }
+            window.addEventListener('scroll', requestTick);
+            requestTick();
+        });
+    </script>
 </x-layout>
