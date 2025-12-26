@@ -23,10 +23,11 @@ class ClientStoreRequest extends FormRequest
     {
         return [
             'nama_lengkap' => 'required|string|max:255',
+            'nama_perusahaan' => 'required|string|max:255',
             'email' => 'required|email|unique:clients,email',
             'no_hp' => 'required|string|max:20',
             'alamat' => 'required|string|max:500',
-            'nik' => 'required|string|max:20|unique:clients,nik',
+            'jenis_client' => 'required|in:retainer,litigasi,non_litigasi',
         ];
     }
 }

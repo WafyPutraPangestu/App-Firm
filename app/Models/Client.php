@@ -9,10 +9,11 @@ class Client extends Model
     protected $fillable = [
         'created_by',
         'nama_lengkap',
+        'nama_perusahaan',
         'email',
         'no_hp',
         'alamat',
-        'nik',
+        'jenis_client',
         'client_key',
         'client_key_expired_at',
         'status'
@@ -27,4 +28,3 @@ class Client extends Model
         return $this->hasMany(Perkara::class);
     }
 }
-

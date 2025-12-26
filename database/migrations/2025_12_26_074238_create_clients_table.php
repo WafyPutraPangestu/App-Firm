@@ -14,20 +14,22 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->foreignId('created_by')
-      ->constrained('users')
-      ->cascadeOnDelete();
-      $table->string('nama_lengkap');
-      $table->string('email')->unique();
-      $table->string('no_hp');
-      $table->text('alamat')->nullable();
-      $table->string('nik')->nullable();
-  
-      // Akses client (dibuat SETELAH perkara pertama sah)
-      $table->string('client_key')->unique()->nullable();
-      $table->timestamp('client_key_expired_at')->nullable();
-  
-      // Status client
-      $table->enum('status', ['pending', 'aktif'])->default('pending');
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->string('nama_lengkap');
+            $table->string('nama_perusahaan');
+            $table->string('email')->unique();
+            $table->string('no_hp');
+            $table->text('alamat')->nullable();
+            // $table->string('nik')->nullable();
+            $table->enum('jenis_client', ['retainer', 'litigasi', 'non_litigasi'])->default('non_litigasi');
+
+
+            $table->string('client_key')->unique()->nullable();
+            $table->timestamp('client_key_expired_at')->nullable();
+
+
+            $table->enum('status', ['pending', 'aktif'])->default('pending');
             $table->timestamps();
         });
     }
