@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Client;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,16 +16,26 @@ class ChekUser
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()) {
-            if (Auth::user()->role === 'user') {
-                return $next($request);
-            }
-
-            abort(403, 'You are not authorized to access this page');
+        if (!session()->has('client_id')) {
+            return redirect()->route('client.login')
+                ->with('error', 'Silakan masukkan Client Key');
         }
 
-        return redirect()->route('auth.register')->with('error', 'You are not authorized to access this page');
+        $client = Client::find(session('client_id'));
+
+        if (!$client) {
+            session()->forget('client_id');
+            abort(403, 'Client tidak ditemukan');
+        }
+
+        // optional: cek masa berlaku key
+        if ($client->client_key_expired_at && Carbon::now()->greaterThan($client->client_key_expired_at)) {
+            session()->forget('client_id');
+            abort(403, 'Client Key sudah kadaluarsa');
+        }
+
+        return $next($request);
     }
 }

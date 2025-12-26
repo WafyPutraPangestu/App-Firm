@@ -7,7 +7,7 @@
     <main class=" ">
         {{ $slot }}
     </main>
-    <x-footer />
+    
 </body>
 
 </html>

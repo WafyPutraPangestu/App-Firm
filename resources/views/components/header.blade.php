@@ -45,8 +45,8 @@
                         <span class="absolute inset-0 bg-gradient-to-r from-red-800 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-lg"></span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
-                    <a href="#" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
-                        <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">Users</span>
+                    <a href="{{ route('admin.clients.index') }}" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
+                        <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">Clients</span>
                         <span class="absolute inset-0 bg-gradient-to-r from-red-800 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-lg"></span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
@@ -92,10 +92,7 @@
                         <span class="relative z-10 group-hover:text-red-900 transition-colors duration-300">Login</span>
                         <span class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                     </a>
-                    <a href="{{ route('auth.register') }}" class="relative px-6 py-2.5 text-sm lg:text-base font-semibold bg-gradient-to-r from-orange-500 to-red-500 rounded-lg overflow-hidden group transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/50 hover:scale-105" :class="scrolled ? 'px-4 py-2 text-sm' : 'px-6 py-2.5'">
-                        <span class="relative z-10">Register</span>
-                        <span class="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    </a>
+                   
                 </div>
                 @endguest
                 @auth
@@ -106,7 +103,7 @@
                         </div>
                         <span class="text-sm font-medium">{{ auth()->user()->name }}</span>
                     </div>
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                    <form action="{{ route('auth.logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="relative px-6 py-2.5 text-sm lg:text-base font-semibold overflow-hidden rounded-lg border-2 border-white group transition-all duration-300 hover:shadow-xl hover:shadow-red-500/50" :class="scrolled ? 'px-4 py-2 text-sm' : 'px-6 py-2.5'">
                             <span class="relative z-10 group-hover:text-red-900 transition-colors duration-300">Logout</span>
@@ -145,7 +142,7 @@
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Contact</a>
                 <div class="pt-4 border-t border-red-800 space-y-3">
                     <a href="{{ route('auth.login') }}" class="block w-full px-4 py-3 text-center text-base font-semibold border-2 border-white rounded-lg hover:bg-white hover:text-red-900 transition-all duration-300">Login</a>
-                    <a href="{{ route('auth.register') }}" class="block w-full px-4 py-3 text-center text-base font-semibold bg-gradient-to-r from-orange-500 to-red-500 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105">Register</a>
+                   
                 </div>
             </div>
         </div>
@@ -172,11 +169,11 @@
                     </div>
                 </div>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Dashboard</a>
-                <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Users</a>
+                <a href="{{ route('admin.clients.index') }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Clients</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Reports</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Settings</a>
                 <div class="pt-4 border-t border-red-800">
-                    <form action="{{ route('logout') }}" method="POST">
+                    <form action="{{ route('auth.logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="block w-full px-4 py-3 text-center text-base font-semibold border-2 border-white rounded-lg hover:bg-white hover:text-red-900 transition-all duration-300">
                             Logout
@@ -212,7 +209,7 @@
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Services</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Support</a>
                 <div class="pt-4 border-t border-red-800">
-                    <form action="{{ route('logout') }}" method="POST">
+                    <form action="{{ route('auth.logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="block w-full px-4 py-3 text-center text-base font-semibold border-2 border-white rounded-lg hover:bg-white hover:text-red-900 transition-all duration-300">
                             Logout

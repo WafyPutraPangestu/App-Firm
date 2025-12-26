@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function clients()
+{
+    return $this->hasMany(Client::class, 'created_by');
+}
+
+public function suratKuasaUploads()
+{
+    return $this->hasMany(SuratKuasa::class, 'uploaded_by');
+}
+
 }

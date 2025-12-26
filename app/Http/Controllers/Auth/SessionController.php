@@ -32,25 +32,13 @@ class SessionController extends Controller
         ])->onlyInput('email');
     }
 
-    public function showRegisterForm()
+    public function logout(Request $request)
     {
-        return view('auth.register');
-    }
+        Auth::logout();
 
-    public function register(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        User::create([
-            'role' => 'user',
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
-        return redirect()->route('auth.login')->with('success', 'Registrasi berhasil! Silakan login.');
+        return redirect('/');
     }
 }

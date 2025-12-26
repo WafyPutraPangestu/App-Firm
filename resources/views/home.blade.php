@@ -363,3 +363,4 @@
         });
     </script>
 </x-layout>
+<x-footer />
