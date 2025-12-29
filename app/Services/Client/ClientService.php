@@ -34,4 +34,9 @@ class ClientService
 
         return $client;
     }
+    public function show(Client $client): Client
+    {
+        Client::latest()->simplePaginate(10);
+        return $client;
+    }
 }

@@ -12,14 +12,14 @@ use App\Services\Client\ClientService;
 
 class ClientController extends Controller
 {
-     public function index()
+    public function index()
     {
-       $user = Client::latest()->SimplePaginate(10);
+        $user = Client::latest()->SimplePaginate(10);
         return view('admin.clients.index', compact('user'));
     }
     public function create()
     {
-        
+
         return view('admin.clients.create');
     }
     public function store(ClientStoreRequest $request, ClientService $service)
@@ -28,16 +28,12 @@ class ClientController extends Controller
         $service->store($request->validated());
         return redirect()->route('admin.clients.index')->with('success', 'Client created successfully.');
     }
-    public function show(Client $client)
-    {
-        return view('admin.clients.show', compact('client'));
-    }
-   
+
     public function edit(Client $client)
     {
         return view('admin.clients.edit', compact('client'));
     }
-   
+
     public function update(ClientUpdateRequest $request, ClientService $service, Client $client)
     {
         $service->update($client, $request->validated());
@@ -48,5 +44,9 @@ class ClientController extends Controller
         $client->delete();
         return redirect()->route('admin.clients.index')->with('success', 'Client deleted successfully.');
     }
-
+    public function show(ClientService $service, Client $client)
+    {
+        $client = $service->show($client);
+        return view('admin.clients.show', compact('client'));
+    }
 }
