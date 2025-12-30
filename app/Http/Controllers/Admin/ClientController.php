@@ -15,12 +15,12 @@ class ClientController extends Controller
     public function index()
     {
         $user = Client::latest()->SimplePaginate(10);
-        return view('admin.clients.index', compact('user'));
+        return view('admin.client.index', compact('user'));
     }
     public function create()
     {
 
-        return view('admin.clients.create');
+        return view('admin.client.create');
     }
     public function store(ClientStoreRequest $request, ClientService $service)
     {
@@ -31,7 +31,7 @@ class ClientController extends Controller
 
     public function edit(Client $client)
     {
-        return view('admin.clients.edit', compact('client'));
+        return view('admin.client.edit', compact('client'));
     }
 
     public function update(ClientUpdateRequest $request, ClientService $service, Client $client)
@@ -47,6 +47,6 @@ class ClientController extends Controller
     public function show(ClientService $service, Client $client)
     {
         $client = $service->show($client);
-        return view('admin.clients.show', compact('client'));
+        return view('admin.client.show', compact('client'));
     }
 }

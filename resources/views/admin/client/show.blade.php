@@ -6,6 +6,9 @@
                 {{ $client->nama_lengkap }}
             </h2>
         </div>
+        <div class="">
+            <a href="{{ route('admin.perkara.create', $client) }}">Create Perkara</a>
+        </div>
     </header>
     <div class="">
         <div class=" flex justify-between items-center mb-6 p-6 bg-white border border-gray-200 rounded-lg shadow-sm ">

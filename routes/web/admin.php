@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\PerkaraController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -12,5 +13,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/{client}/edit', 'edit')->name('edit');
         Route::put('/{client}', 'update')->name('update');
         Route::delete('/{client}', 'destroy')->name('destroy');
+    });
+
+    Route::controller(PerkaraController::class)->prefix('admin/perkaras')->name('admin.perkara.')->group(function () {
+        Route::get('/create/{client}', 'create')->name('create');
     });
 });

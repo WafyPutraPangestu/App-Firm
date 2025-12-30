@@ -14,24 +14,24 @@ return new class extends Migration
         Schema::create('perkaras', function (Blueprint $table) {
             $table->id();
             $table->foreignId('created_by')
-      ->constrained('users')
-      ->cascadeOnDelete();
+                ->constrained('users')
+                ->cascadeOnDelete();
 
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
-        
-            $table->string('jenis_perkara'); // contoh: Pencemaran Nama Baik
+
+            $table->string('jenis_perkara');
             $table->text('deskripsi_perkara');
-        
+
             $table->enum('status', [
                 'draft',
                 'berjalan',
                 'putusan',
                 'selesai'
             ])->default('draft');
-        
+
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_selesai')->nullable();
-        
+
             $table->timestamps();
         });
     }
