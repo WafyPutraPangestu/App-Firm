@@ -69,7 +69,7 @@
                 <div class="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/20"
                      :style="`transform: perspective(1000px) rotateY(${mouseX * 5 - 2.5}deg) rotateX(${-mouseY * 5 + 2.5}deg)`">
                     
-                    <form action="{{ route('auth.login') }}" method="POST" @submit="handleSubmit">
+                    <form action="{{ route('login') }}" method="POST" @submit="handleSubmit">
                         @csrf
                         
                         <!-- Header -->

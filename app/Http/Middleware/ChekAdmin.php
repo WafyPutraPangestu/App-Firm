@@ -17,10 +17,10 @@ class ChekAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->route('auth.login')->with('error', 'Silakan login');;
+            return redirect()->route('login')->with('error', 'Silakan login');;
         }
         if (Auth::user()->role !== 'admin') {
-            return redirect()->route('auth.login')->with('error', 'You are not authorized to access this page');
+            return redirect()->route('login')->with('error', 'You are not authorized to access this page');
         }
         return $next($request);
     }

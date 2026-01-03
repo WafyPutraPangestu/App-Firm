@@ -20,8 +20,6 @@ return new class extends Migration
             $table->string('nama_dokumen');
             $table->string('file_path');
             $table->string('tipe_dokumen'); 
-            // contoh: berita_acara, putusan, bukti
-        
             $table->timestamps();
         });
     }

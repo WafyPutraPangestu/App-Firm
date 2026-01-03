@@ -88,7 +88,7 @@
                 @endcan
                 @guest
                 <div class="hidden md:flex items-center gap-3">
-                    <a href="{{ route('auth.login') }}" class="relative px-6 py-2.5 text-sm lg:text-base font-semibold overflow-hidden rounded-lg border-2 border-white group transition-all duration-300 hover:shadow-xl hover:shadow-red-500/50" :class="scrolled ? 'px-4 py-2 text-sm' : 'px-6 py-2.5'">
+                    <a href="{{ route('login') }}" class="relative px-6 py-2.5 text-sm lg:text-base font-semibold overflow-hidden rounded-lg border-2 border-white group transition-all duration-300 hover:shadow-xl hover:shadow-red-500/50" :class="scrolled ? 'px-4 py-2 text-sm' : 'px-6 py-2.5'">
                         <span class="relative z-10 group-hover:text-red-900 transition-colors duration-300">Login</span>
                         <span class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                     </a>
@@ -141,7 +141,7 @@
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Profile</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Contact</a>
                 <div class="pt-4 border-t border-red-800 space-y-3">
-                    <a href="{{ route('auth.login') }}" class="block w-full px-4 py-3 text-center text-base font-semibold border-2 border-white rounded-lg hover:bg-white hover:text-red-900 transition-all duration-300">Login</a>
+                    <a href="{{ route('login') }}" class="block w-full px-4 py-3 text-center text-base font-semibold border-2 border-white rounded-lg hover:bg-white hover:text-red-900 transition-all duration-300">Login</a>
                    
                 </div>
             </div>

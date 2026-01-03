@@ -47,6 +47,8 @@ class ClientController extends Controller
     public function show(ClientService $service, Client $client)
     {
         $client = $service->show($client);
-        return view('admin.client.show', compact('client'));
+        $countClients = $service->countClients();
+       
+        return view('admin.client.show', compact('client','countClients'));
     }
 }

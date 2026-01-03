@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\PerkaraController;
+use App\Http\Controllers\Admin\ProgresController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -15,7 +16,21 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::delete('/{client}', 'destroy')->name('destroy');
     });
 
-    Route::controller(PerkaraController::class)->prefix('admin/perkaras')->name('admin.perkara.')->group(function () {
+    Route::controller(PerkaraController::class)
+    ->prefix('admin/perkaras')
+    ->name('admin.perkara.')
+    ->group(function () {
+        Route::get('/{perkara}/client/{client}', 'show')->name('show');
         Route::get('/create/{client}', 'create')->name('create');
+        Route::post('/{client}', 'store')->name('store');
     });
+
+    Route::controller(ProgresController::class)
+    ->prefix('admin/progres')
+    ->name('admin.progres.')
+    ->group(function () {
+       Route::get('/{perkara}/client/{client}', 'create')->name('create');
+       Route::post('/{perkara}/{client}', 'store')->name('store');
+    });
+
 });

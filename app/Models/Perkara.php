@@ -12,10 +12,11 @@ class Perkara extends Model
         'tanggal_mulai', 'tanggal_selesai'
     ];
 
+
     public function admin()
-{
+    {
     return $this->belongsTo(User::class, 'created_by');
-}
+    }
 
     public function client()
     {
@@ -30,6 +31,16 @@ class Perkara extends Model
     public function progres()
     {
         return $this->hasMany(ProgresPerkara::class)->orderBy('urutan');
+    }
+
+    
+    protected static function booted()
+    {
+        static::creating(function ($perkara) {
+            if (is_null($perkara->tanggal_mulai)) {
+                $perkara->tanggal_mulai = now();
+            }
+        });
     }
 }
 

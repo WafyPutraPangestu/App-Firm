@@ -36,7 +36,11 @@ class ClientService
     }
     public function show(Client $client): Client
     {
-        Client::latest()->simplePaginate(10);
+       $client->load('perkara');
         return $client;
+    }
+    public function countClients(): int
+    {
+        return Client::all()->count();
     }
 }
