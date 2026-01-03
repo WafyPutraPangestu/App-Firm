@@ -13,21 +13,20 @@ class PerkaraController extends Controller
 {
     public function create(PerkaraService $service, $client)
     {
-        // dd($client);
-        $client = $service->show($client);
+
         return view('admin.perkara.create', compact('client'));
     }
     public function store(PerkaraStoreRequest $request, PerkaraService $service, Client $client)
     {
         $service->store($request->validated(), $client);
-        
+
         return redirect()
             ->route('admin.clients.show', $client->id)
             ->with('success', 'Perkara berhasil dibuat & Tanggal Mulai tercatat otomatis.');
     }
-    public function show(PerkaraService $service, Perkara $perkara , Client $client)
+    public function show(PerkaraService $service, Perkara $perkara, Client $client)
     {
-        $client = $service->show($client);
+
         return view('admin.perkara.show', compact('client', 'perkara'));
     }
 }

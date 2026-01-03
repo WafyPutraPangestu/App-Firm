@@ -9,9 +9,8 @@ class DokumenProgres extends Model
     protected $fillable = [
         'created_by',
         'progres_perkara_id',
-        'nama_dokumen',
-        'file_path',
-        'tipe_dokumen'
+        'file_path'
+
     ];
     public function admin()
     {
@@ -23,4 +22,3 @@ class DokumenProgres extends Model
         return $this->belongsTo(ProgresPerkara::class);
     }
 }
-

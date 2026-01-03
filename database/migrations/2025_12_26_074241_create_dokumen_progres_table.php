@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('dokumen_progres', function (Blueprint $table) {
             $table->id();
             $table->foreignId('created_by')
-      ->constrained('users')
-      ->cascadeOnDelete();
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->foreignId('progres_perkara_id')->constrained()->cascadeOnDelete();
-            $table->string('nama_dokumen');
             $table->string('file_path');
-            $table->string('tipe_dokumen'); 
             $table->timestamps();
         });
     }

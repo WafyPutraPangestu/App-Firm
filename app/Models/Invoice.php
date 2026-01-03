@@ -8,12 +8,8 @@ class Invoice extends Model
 {
     protected $fillable = [
         'created_by',
-        'progres_perkara_id',
-        'nomor_invoice',
-        'jumlah',
-        'keterangan',
+        'file_invoice',
         'status',
-        'tanggal_invoice'
     ];
 
 
@@ -27,4 +23,3 @@ class Invoice extends Model
         return $this->belongsTo(ProgresPerkara::class);
     }
 }
-
