@@ -29,7 +29,7 @@ return new class extends Migration
             $table->timestamp('client_key_expired_at')->nullable();
 
 
-            $table->enum('status', ['pending', 'aktif'])->default('pending');
+            $table->enum('status', ['nonaktif', 'aktif'])->default('aktif');
             $table->timestamps();
         });
     }

@@ -19,6 +19,14 @@ class DokumenProgres extends Model
 
     public function progres()
     {
-        return $this->belongsTo(ProgresPerkara::class);
+        return $this->belongsTo(ProgresPerkara::class, 'progres_perkara_id');
+    }
+
+    /**
+     * Accessor untuk mendapatkan Perkara
+     */
+    public function getPerkaraAttribute()
+    {
+        return $this->progres?->perkara;
     }
 }

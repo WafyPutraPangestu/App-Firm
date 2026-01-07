@@ -23,11 +23,9 @@ return new class extends Migration
             $table->text('deskripsi_perkara');
 
             $table->enum('status', [
-                'draft',
                 'berjalan',
-                'putusan',
                 'selesai'
-            ])->default('draft');
+            ])->default('berjalan');
 
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_selesai')->nullable();

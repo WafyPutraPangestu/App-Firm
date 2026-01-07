@@ -8,14 +8,19 @@ use App\Http\Requests\Client\ClientUpdateRequest;
 use App\Models\Client;
 use App\Models\User;
 use App\Services\Client\ClientService;
-
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
     public function index()
     {
-        $user = Client::latest()->SimplePaginate(10);
-        return view('admin.client.index', compact('user'));
+        $user = Client::with('admin')->latest()->SimplePaginate(10);
+        
+        
+        $clientService = app(\App\Services\Client\ClientService::class);
+        $stats = $clientService->getStatistics();
+        
+        return view('admin.client.index', compact('user', 'stats'));
     }
     public function create()
     {
@@ -50,5 +55,19 @@ class ClientController extends Controller
         $countClients = $service->countClients();
        
         return view('admin.client.show', compact('client','countClients'));
+    }
+    public function generateKey(Client $client)
+    {
+        $clientKey = bin2hex(random_bytes(2));
+        // $hashedKey = Hash::make($clientKey);
+        $client->update([
+            // 'client_key' =>  $hashedKey,
+            'client_key' =>  $clientKey,
+            'client_key_expired_at' => now()->addMonth(),
+        ]);
+
+     
+
+        return redirect()->route('admin.clients.index')->with('success', 'Client key generated successfully.');
     }
 }

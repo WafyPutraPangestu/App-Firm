@@ -55,5 +55,9 @@ public function suratKuasaUploads()
 {
     return $this->hasMany(SuratKuasa::class, 'uploaded_by');
 }
+public function chats()
+    {
+        return $this->hasMany(Chat::class, 'id_admin', 'id');
+    }
 
 }

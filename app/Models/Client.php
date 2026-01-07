@@ -27,4 +27,9 @@ class Client extends Model
     {
         return $this->hasMany(Perkara::class);
     }
+    public function chats()
+    {
+        
+        return $this->hasMany(Chat::class, 'id_client', 'id');
+    }
 }

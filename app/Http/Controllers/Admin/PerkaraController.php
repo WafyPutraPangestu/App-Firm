@@ -29,4 +29,52 @@ class PerkaraController extends Controller
 
         return view('admin.perkara.show', compact('client', 'perkara'));
     }
+    public function finish(Client $client, Perkara $perkara)
+    {
+        abort_unless($perkara->client_id === $client->id, 404);
+        if ($perkara->status === 'selesai') {
+            return redirect()
+                ->route('admin.perkara.show', [
+                    'client' => $client->id,
+                    'perkara' => $perkara->id
+                ])
+                ->with('info', 'Perkara ini sudah ditandai sebagai selesai.');
+        }
+        $perkara->update([
+            'status' => 'selesai',
+            'tanggal_selesai' => now(), 
+        ]);
+        return redirect()
+            ->route('admin.perkara.show', [
+                'client' => $client->id,
+                'perkara' => $perkara->id
+            ])
+            ->with('success', 'Perkara berhasil ditandai sebagai selesai.');
+    }
+    public function reopen(Client $client, Perkara $perkara)
+    {
+        abort_unless($perkara->client_id === $client->id, 404);
+        
+        if ($perkara->status === 'berjalan') {
+            return redirect()
+                ->route('admin.perkara.show', [
+                    'client' => $client->id,
+                    'perkara' => $perkara->id
+                ])
+                ->with('info', 'Perkara ini masih berjalan.');
+        }
+        
+        $perkara->update([
+            'status' => 'berjalan',
+            'tanggal_selesai' => null,
+        ]);
+        
+        return redirect()
+            ->route('admin.perkara.show', [
+                'client' => $client->id,
+                'perkara' => $perkara->id
+            ])
+            ->with('success', 'Perkara berhasil dibuka kembali.');
+    }
+    
 }

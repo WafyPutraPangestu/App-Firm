@@ -12,7 +12,7 @@ class PerkaraService
     $client->Perkara()->create([
       'jenis_perkara' => $data['jenis_perkara'],
       'deskripsi_perkara' => $data['deskripsi_perkara'],
-      'status' => 'draft',
+      'status' => 'berjalan',
       'tanggal_mulai' => $data['tanggal_mulai'] ?? null,
       'tanggal_selesai' => $data['tanggal_selesai'] ?? null,
       'created_by' => Auth::id(),

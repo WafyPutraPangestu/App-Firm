@@ -11,7 +11,7 @@ class ProgresStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class ProgresStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'judul_progres' => 'required|string|max:255',
+            'keterangan' => 'required|string',
+            'tanggal_progres' => 'required|date|date_format:Y-m-d',
+            'urutan' => 'required|integer|min:1',
+            'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
+            'file_invoice' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
         ];
     }
 }

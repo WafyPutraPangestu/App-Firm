@@ -1,4 +1,22 @@
 <x-layout>
+    <div class="">
+        @error('file_path')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+        @error('file_invoice')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+        @error('judul_progres')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            
+        @enderror
+        @error('tanggal_progres')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+        @error('urutan')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
     <div class="container mx-auto px-6 py-6">
 
         <h1 class="text-2xl font-bold mb-6">Tambah Progres Perkara</h1>
@@ -39,7 +57,7 @@
             <div>
                 <div class="mb-3">
                     <label class="block">Upload Dokumen</label>
-                    <input type="file" name="file_path[]" multiple class="w-full border rounded px-3 py-2">
+                    <input type="file" name="file_path" multiple class="w-full border rounded px-3 py-2">
                 </div>
             </div>
             <div>
@@ -47,7 +65,7 @@
 
                     <div class="mb-3">
                         <label class="block">Upload Dokumen Invoice</label>
-                        <input type="file" name="file_invoice[]" multiple class="w-full border rounded px-3 py-2">
+                        <input type="file" name="file_invoice" multiple class="w-full border rounded px-3 py-2">
                     </div>
                 </div>
 

@@ -8,10 +8,16 @@ class Invoice extends Model
 {
     protected $fillable = [
         'created_by',
+        'progres_perkara_id',
         'file_invoice',
         'status',
     ];
 
+
+    protected $casts = [
+        'tanggal_invoice' => 'date',
+        'jumlah' => 'decimal:2',
+    ];
 
     public function admin()
     {
@@ -20,6 +26,15 @@ class Invoice extends Model
 
     public function progres()
     {
-        return $this->belongsTo(ProgresPerkara::class);
+        return $this->belongsTo(ProgresPerkara::class, 'progres_perkara_id');
     }
+
+    /**
+     * Accessor untuk mendapatkan Perkara
+     */
+    public function getPerkaraAttribute()
+    {
+        return $this->progres?->perkara;
+    }
+
 }

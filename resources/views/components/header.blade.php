@@ -14,10 +14,17 @@
                         <div class="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-500 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300 rounded-full"></div>
                     </a>
                 </div>
-                @guest
+
+                {{-- GUEST MENU (Hanya muncul jika Admin OFF dan Client OFF) --}}
+                @if(!Auth::check() && !session('client_id'))
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
-                    <a href="/" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
+                    <a href="/home" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
                         <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">Home</span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-red-800 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-lg"></span>
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                    </a>
+                    <a href="/" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
+                        <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">Data Client</span>
                         <span class="absolute inset-0 bg-gradient-to-r from-red-800 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-lg"></span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
@@ -37,7 +44,9 @@
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
                 </div>
-                @endguest
+                @endif
+
+                {{-- ADMIN MENU --}}
                 @can('admin')
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
                     <a href="#" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
@@ -62,14 +71,16 @@
                     </a>
                 </div>
                 @endcan
-                @can('user')
+
+                {{-- CLIENT MENU (GANTINYA @can('user')) --}}
+                @if(session('client_id'))
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
-                    <a href="#" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
+                    <a href="{{ route('user.clients.dashboard', session('client_id')) }}" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
                         <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">Dashboard</span>
                         <span class="absolute inset-0 bg-gradient-to-r from-red-800 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-lg"></span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
-                    <a href="#" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
+                    <a href="{{ route('user.clients.show', session('client_id')) }}" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
                         <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">My Profile</span>
                         <span class="absolute inset-0 bg-gradient-to-r from-red-800 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-lg"></span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
@@ -85,16 +96,19 @@
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
                 </div>
-                @endcan
-                @guest
+                @endif
+
+                {{-- LOGIN BUTTON (GUEST) --}}
+                @if(!Auth::check() && !session('client_id'))
                 <div class="hidden md:flex items-center gap-3">
                     <a href="{{ route('login') }}" class="relative px-6 py-2.5 text-sm lg:text-base font-semibold overflow-hidden rounded-lg border-2 border-white group transition-all duration-300 hover:shadow-xl hover:shadow-red-500/50" :class="scrolled ? 'px-4 py-2 text-sm' : 'px-6 py-2.5'">
                         <span class="relative z-10 group-hover:text-red-900 transition-colors duration-300">Login</span>
                         <span class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                     </a>
-                   
                 </div>
-                @endguest
+                @endif
+
+                {{-- AUTH BUTTON (ADMIN) --}}
                 @auth
                 <div class="hidden md:flex items-center gap-3">
                     <div class="flex items-center gap-2 px-4 py-2 bg-red-800/50 rounded-lg">
@@ -112,6 +126,26 @@
                     </form>
                 </div>
                 @endauth
+
+                {{-- CLIENT BUTTON (USER) --}}
+                @if(session('client_id'))
+                <div class="hidden md:flex items-center gap-3">
+                    <div class="flex items-center gap-2 px-4 py-2 bg-blue-800/50 rounded-lg">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center">
+                            <span class="text-sm font-bold">{{ substr(session('client_name'), 0, 1) }}</span>
+                        </div>
+                        <span class="text-sm font-medium">{{ session('client_name') }}</span>
+                    </div>
+                    <form action="{{ route('user.clients.logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="relative px-6 py-2.5 text-sm lg:text-base font-semibold overflow-hidden rounded-lg border-2 border-white group transition-all duration-300 hover:shadow-xl hover:shadow-red-500/50" :class="scrolled ? 'px-4 py-2 text-sm' : 'px-6 py-2.5'">
+                            <span class="relative z-10 group-hover:text-red-900 transition-colors duration-300">Logout</span>
+                            <span class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                        </button>
+                    </form>
+                </div>
+                @endif
+
                 <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden relative w-10 h-10 text-white focus:outline-none group">
                     <div class="absolute inset-0 flex items-center justify-center">
                         <span class="sr-only">Open menu</span>
@@ -124,7 +158,10 @@
                 </button>
             </div>
         </div>
-        @guest
+
+        {{-- MOBILE MENU --}}
+        {{-- GUEST --}}
+        @if(!Auth::check() && !session('client_id'))
         <div x-show="mobileMenuOpen" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 transform -translate-y-4"
@@ -134,19 +171,22 @@
              x-transition:leave-end="opacity-0 transform -translate-y-4"
              class="md:hidden absolute left-0 right-0 bg-gradient-to-b from-red-950 to-red-900 shadow-2xl border-t border-red-800 transition-all duration-300"
              :class="scrolled ? 'top-full rounded-b-3xl mx-4' : 'top-full rounded-none'"
-             @click.away="mobileMenuOpen = false">
+             @click.away="mobileMenuOpen = false"
+             style="display: none;">
             <div class="px-4 py-6 space-y-3">
-                <a href="/" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Home</a>
+                <a href="/home" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Home</a>
+                <a href="/" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Data Client</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">About</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Profile</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Contact</a>
                 <div class="pt-4 border-t border-red-800 space-y-3">
                     <a href="{{ route('login') }}" class="block w-full px-4 py-3 text-center text-base font-semibold border-2 border-white rounded-lg hover:bg-white hover:text-red-900 transition-all duration-300">Login</a>
-                   
                 </div>
             </div>
         </div>
-        @endguest
+        @endif
+
+        {{-- ADMIN --}}
         @can('admin')
         <div x-show="mobileMenuOpen" 
              x-transition:enter="transition ease-out duration-300"
@@ -157,7 +197,8 @@
              x-transition:leave-end="opacity-0 transform -translate-y-4"
              class="md:hidden absolute left-0 right-0 bg-gradient-to-b from-red-950 to-red-900 shadow-2xl border-t border-red-800 transition-all duration-300"
              :class="scrolled ? 'top-full rounded-b-3xl mx-4' : 'top-full rounded-none'"
-             @click.away="mobileMenuOpen = false">
+             @click.away="mobileMenuOpen = false"
+             style="display: none;">
             <div class="px-4 py-6 space-y-3">
                 <div class="flex items-center gap-3 px-4 py-3 bg-red-800/50 rounded-lg mb-4">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
@@ -183,7 +224,9 @@
             </div>
         </div>
         @endcan
-        @can('user')
+
+        {{-- CLIENT --}}
+        @if(session('client_id'))
         <div x-show="mobileMenuOpen" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 transform -translate-y-4"
@@ -193,23 +236,24 @@
              x-transition:leave-end="opacity-0 transform -translate-y-4"
              class="md:hidden absolute left-0 right-0 bg-gradient-to-b from-red-950 to-red-900 shadow-2xl border-t border-red-800 transition-all duration-300"
              :class="scrolled ? 'top-full rounded-b-3xl mx-4' : 'top-full rounded-none'"
-             @click.away="mobileMenuOpen = false">
+             @click.away="mobileMenuOpen = false"
+             style="display: none;">
             <div class="px-4 py-6 space-y-3">
                 <div class="flex items-center gap-3 px-4 py-3 bg-red-800/50 rounded-lg mb-4">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
-                        <span class="text-base font-bold">{{ substr(auth()->user()->name, 0, 1) }}</span>
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center">
+                        <span class="text-base font-bold">{{ substr(session('client_name'), 0, 1) }}</span>
                     </div>
                     <div>
-                        <p class="text-sm font-semibold">{{ auth()->user()->name }}</p>
-                        <p class="text-xs text-red-200">User</p>
+                        <p class="text-sm font-semibold">{{ session('client_name') }}</p>
+                        <p class="text-xs text-red-200">Client</p>
                     </div>
                 </div>
-                <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Dashboard</a>
-                <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">My Profile</a>
+                <a href="{{ route('user.clients.dashboard', session('client_id')) }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Dashboard</a>
+                <a href="{{ route('user.clients.show', session('client_id')) }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">My Profile</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Services</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Support</a>
                 <div class="pt-4 border-t border-red-800">
-                    <form action="{{ route('auth.logout') }}" method="POST">
+                    <form action="{{ route('user.clients.logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="block w-full px-4 py-3 text-center text-base font-semibold border-2 border-white rounded-lg hover:bg-white hover:text-red-900 transition-all duration-300">
                             Logout
@@ -218,7 +262,7 @@
                 </div>
             </div>
         </div>
-        @endcan
+        @endif
     </nav>
 </header>
 <script>
