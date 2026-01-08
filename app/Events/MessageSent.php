@@ -5,52 +5,58 @@ namespace App\Events;
 use App\Models\Chat;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast; // Wajib di-import
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-// Tambahkan "implements ShouldBroadcast"
 class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $chat;
 
-    /**
-     * Terima data Chat yang baru dibuat
-     */
     public function __construct(Chat $chat)
     {
         $this->chat = $chat;
     }
 
-    /**
-     * Tentukan ke mana pesan ini akan dikirim (Channel)
-     */
     public function broadcastOn(): array
     {
-        // Logika Channel:
-        // 1. Jika ini obrolan Client terdaftar -> Masuk ke channel 'chat.client.{id}'
-        // 2. Jika ini obrolan Guest -> Masuk ke channel 'chat.guest.{token}'
+        $channels = [];
         
+        // Channel untuk admin (semua admin bisa lihat)
+        $channels[] = new PrivateChannel('chat.admin');
+        
+        // Channel untuk client/guest
         if ($this->chat->id_client) {
-            // PrivateChannel butuh otentikasi (lebih aman)
-            return [
-                new PrivateChannel('chat.client.' . $this->chat->id_client)
-            ];
-        } else {
-            // Channel publik untuk Guest (menggunakan token sebagai pembeda room)
-            return [
-                new Channel('chat.guest.' . $this->chat->guest_token)
-            ];
+            // Kalau ada id_client, kirim ke channel client
+            $channels[] = new PrivateChannel('chat.client.' . $this->chat->id_client);
+        } elseif ($this->chat->guest_token) {
+            // Kalau guest, kirim ke channel guest (public channel)
+            $channels[] = new Channel('chat.guest.' . $this->chat->guest_token);
         }
+        
+        return $channels;
     }
     
-    // Nama event yang akan didengar oleh Javascript (Opsional, defaultnya nama Class)
     public function broadcastAs()
     {
         return 'message.new';
+    }
+    
+    // Data yang dikirim ke frontend
+    public function broadcastWith()
+    {
+        return [
+            'id_chat' => $this->chat->id_chat,
+            'id_client' => $this->chat->id_client,
+            'guest_token' => $this->chat->guest_token,
+            'id_admin' => $this->chat->id_admin,
+            'pengirim' => $this->chat->pengirim,
+            'isi_pesan' => $this->chat->isi_pesan,
+            'status_baca' => $this->chat->status_baca,
+            'created_at' => $this->chat->created_at->toDateTimeString(),
+        ];
     }
 }

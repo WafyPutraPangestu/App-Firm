@@ -7,7 +7,11 @@
     <main class=" ">
         {{ $slot }}
     </main>
-    
+    @unless (request()->is('admin/*'))
+       
+    <x-chat-widget />
+        
+    @endunless
 </body>
 
 </html>

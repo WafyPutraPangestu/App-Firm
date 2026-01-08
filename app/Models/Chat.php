@@ -11,11 +11,11 @@ class Chat extends Model
     
     protected $fillable = [
         'id_client',
-        'guest_token', 
         'id_admin',
         'pengirim',
         'isi_pesan',
         'status_baca',
+        'guest_token', // <--- INI WAJIB ADA
     ];
 
     

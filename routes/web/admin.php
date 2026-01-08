@@ -4,10 +4,19 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PerkaraController;
 use App\Http\Controllers\Admin\ProgresController;
+use App\Http\Controllers\ChatController;
 use App\Models\Client;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/chat', [ChatController::class, 'adminChatPage'])->name('admin.chat.index');
+
+    Route::prefix('admin/api/chat')->group(function () {
+        Route::get('/conversations', [ChatController::class, 'getAdminConversations']); // GET
+        Route::post('/reply-guest', [ChatController::class, 'replyToGuest']);           // POST
+        Route::post('/reply-client', [ChatController::class, 'replyToClient']);         // POST
+    });
+    
     Route::controller(ClientController::class)->prefix('admin/clients')->name('admin.clients.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');

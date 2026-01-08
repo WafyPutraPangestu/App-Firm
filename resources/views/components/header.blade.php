@@ -59,8 +59,8 @@
                         <span class="absolute inset-0 bg-gradient-to-r from-red-800 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-lg"></span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
-                    <a href="#" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
-                        <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">Reports</span>
+                    <a href="{{ route('admin.chat.index') }}" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
+                        <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">Manajemen Chat</span>
                         <span class="absolute inset-0 bg-gradient-to-r from-red-800 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-lg"></span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
@@ -211,7 +211,7 @@
                 </div>
                 <a href="{{ route('admin.dashboard') }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Dashboard</a>
                 <a href="{{ route('admin.clients.index') }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Clients</a>
-                <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Reports</a>
+                <a href="{{ route('admin.chat.index') }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Manajemen Chat</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Settings</a>
                 <div class="pt-4 border-t border-red-800">
                     <form action="{{ route('auth.logout') }}" method="POST">
