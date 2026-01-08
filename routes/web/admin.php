@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PerkaraController;
 use App\Http\Controllers\Admin\ProgresController;
 use App\Models\Client;
@@ -45,6 +46,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
         [ProgresController::class, 'download']
         )->name('download');
        
+    });
+
+    Route::controller(DashboardController::class)->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', 'index')->name('dashboard');
     });
 
 });

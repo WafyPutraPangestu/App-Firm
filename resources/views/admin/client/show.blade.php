@@ -180,6 +180,7 @@
                                         {{ $perkara->status }}
                                     </span>
                                 </button>
+        
                                 {{-- Detail Card (Expanded) --}}
                                 <div id="content-{{ $index }}" class="hidden bg-white border-t border-gray-200">
                                     <div class="p-4 space-y-4">
@@ -188,6 +189,7 @@
                                             <h4 class="text-xs font-semibold text-gray-700 mb-1">Deskripsi Perkara</h4>
                                             <p class="text-sm text-gray-600">{{ $perkara->deskripsi_perkara }}</p>
                                         </div>
+        
                                         {{-- Info Detail --}}
                                         <div class="grid grid-cols-2 gap-3 text-xs">
                                             <div>
@@ -199,6 +201,31 @@
                                                 <p class="font-medium text-gray-900">{{ $perkara->status }}</p>
                                             </div>
                                         </div>
+        
+                                        {{-- BAGIAN SURAT KUASA (BARU) --}}
+                                        <div class="pt-2 border-t border-gray-100">
+                                            <h4 class="text-xs font-semibold text-gray-700 mb-2">Dokumen Surat Kuasa</h4>
+                                            @if($perkara->suratKuasa)
+                                                <div class="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-100">
+                                                    <div class="flex flex-col">
+                                                        <span class="text-xs text-gray-500">Nomor Surat:</span>
+                                                        <span class="text-xs font-medium text-gray-900">{{ $perkara->suratKuasa->nomor_surat ?? '-' }}</span>
+                                                    </div>
+                                                    <a href="{{ Storage::url($perkara->suratKuasa->file_path) }}" 
+                                                       download
+                                                       class="inline-flex items-center px-2 py-1 bg-white border border-gray-300 rounded text-xs text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">
+                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                                        </svg>
+                                                        Unduh
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <p class="text-xs text-gray-400 italic">Tidak ada file surat kuasa.</p>
+                                            @endif
+                                        </div>
+                                        {{-- END BAGIAN SURAT KUASA --}}
+        
                                         {{-- Action Buttons --}}
                                         <div class="flex gap-2 pt-2 border-t border-gray-100">
                                             @if($perkara->status === 'berjalan')

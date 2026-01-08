@@ -18,17 +18,19 @@ class PerkaraController extends Controller
     }
     public function store(PerkaraStoreRequest $request, PerkaraService $service, Client $client)
     {
+        
         $service->store($request->validated(), $client);
 
         return redirect()
             ->route('admin.clients.show', $client->id)
-            ->with('success', 'Perkara berhasil dibuat & Tanggal Mulai tercatat otomatis.');
+            ->with('success', 'Perkara dan Surat Kuasa berhasil dibuat.');
     }
     public function show(PerkaraService $service, Perkara $perkara, Client $client)
     {
 
         return view('admin.perkara.show', compact('client', 'perkara'));
     }
+    
     public function finish(Client $client, Perkara $perkara)
     {
         abort_unless($perkara->client_id === $client->id, 404);

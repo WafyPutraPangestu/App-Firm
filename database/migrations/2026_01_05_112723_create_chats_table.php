@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
 return new class extends Migration
 {
     /**
@@ -11,23 +9,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chat', function (Blueprint $table) {
-            $table->id('id_chat'); 
-            $table->unsignedBigInteger('id_client'); 
-            $table->unsignedBigInteger('id_admin')->nullable(); 
-            $table->enum('pengirim', ['client', 'admin']);
+        Schema::create('chats', function (Blueprint $table) { 
+            $table->id('id_chat');
+            $table->unsignedBigInteger('id_client')->nullable(); 
+            $table->string('guest_token')->nullable()->index(); 
+            $table->unsignedBigInteger('id_admin')->nullable();
+            $table->enum('pengirim', ['client', 'admin', 'guest']); 
             $table->text('isi_pesan');
             $table->boolean('status_baca')->default(0);
             $table->timestamps();
             $table->foreign('id_client')
                   ->references('id')->on('clients')
-                  ->onDelete('cascade'); 
+                  ->onDelete('cascade');
             $table->foreign('id_admin')
-                  ->references('id')->on('users') 
-                  ->onDelete('set null'); 
+                  ->references('id')->on('users')
+                  ->onDelete('set null');
         });
     }
-
     /**
      * Reverse the migrations.
      */

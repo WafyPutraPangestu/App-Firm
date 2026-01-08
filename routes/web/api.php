@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,13 @@ Route::middleware('admin')->group(function () {
         'message' => 'Status berhasil diubah',
         'status' => $client->status
     ]);
+});
+Route::controller(DashboardController::class)->prefix('admin')->name('admin.')->group(function () {
+  Route::get('/api/realtime-stats', 'getRealtimeStats')->name('api.realtime-stats');
+  Route::get('/api/stats-by-period', 'getStatsByPeriod')->name('api.stats-by-period');
+  Route::get('/api/periode-breakdown', 'getPeriodeBreakdown')->name('api.periode-breakdown');
+  Route::get('/api/search', 'search')->name('api.search');
+  Route::get('/api/recent-activities', 'getRecentActivities')->name('api.recent-activities');
 });
 });
 

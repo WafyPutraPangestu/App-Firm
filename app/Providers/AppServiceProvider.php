@@ -2,6 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Client;
+use App\Models\DokumenProgres;
+use App\Models\Invoice;
+use App\Models\Perkara;
+use App\Models\ProgresPerkara;
+use App\Observers\DashboardCacheObserver;
+use App\Services\Admin\DashboardService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -12,7 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(DashboardService::class, function ($app) {
+            return new DashboardService();
+        });
     }
 
     /**
@@ -42,5 +51,12 @@ class AppServiceProvider extends ServiceProvider
             // Jika tidak ada keduanya
             return false;
         });
+
+          // Register observers untuk auto-clear cache
+          Client::observe(DashboardCacheObserver::class);
+          Perkara::observe(DashboardCacheObserver::class);
+          ProgresPerkara::observe(DashboardCacheObserver::class);
+          Invoice::observe(DashboardCacheObserver::class);
+          DokumenProgres::observe(DashboardCacheObserver::class);
     }
 }

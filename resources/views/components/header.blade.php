@@ -49,7 +49,7 @@
                 {{-- ADMIN MENU --}}
                 @can('admin')
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
-                    <a href="#" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
+                    <a href="{{ route('admin.dashboard') }}" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
                         <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">Dashboard</span>
                         <span class="absolute inset-0 bg-gradient-to-r from-red-800 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-lg"></span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
@@ -81,7 +81,7 @@
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
                     <a href="{{ route('user.clients.show', session('client_id')) }}" class="relative px-4 py-2 text-sm lg:text-base font-medium transition-all duration-300 group overflow-hidden rounded-lg">
-                        <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">My Profile</span>
+                        <span class="relative z-10 group-hover:text-red-100 transition-colors duration-300">Manajemen Progres</span>
                         <span class="absolute inset-0 bg-gradient-to-r from-red-800 to-red-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-lg"></span>
                         <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-orange-400 to-red-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
@@ -209,7 +209,7 @@
                         <p class="text-xs text-red-200">Administrator</p>
                     </div>
                 </div>
-                <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Dashboard</a>
+                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Dashboard</a>
                 <a href="{{ route('admin.clients.index') }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Clients</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Reports</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Settings</a>
@@ -249,7 +249,7 @@
                     </div>
                 </div>
                 <a href="{{ route('user.clients.dashboard', session('client_id')) }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Dashboard</a>
-                <a href="{{ route('user.clients.show', session('client_id')) }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">My Profile</a>
+                <a href="{{ route('user.clients.show', session('client_id')) }}" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Manajemen Progres</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Services</a>
                 <a href="#" class="block px-4 py-3 text-base font-medium rounded-lg hover:bg-red-800 transition-all duration-300 transform hover:translate-x-2">Support</a>
                 <div class="pt-4 border-t border-red-800">

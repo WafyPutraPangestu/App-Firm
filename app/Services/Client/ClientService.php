@@ -37,7 +37,7 @@ class ClientService
     }
     public function show(Client $client): Client
     {
-       $client->load('perkara');
+        $client->load(['perkara.suratKuasa']);
         return $client;
     }
     public function countClients(): int

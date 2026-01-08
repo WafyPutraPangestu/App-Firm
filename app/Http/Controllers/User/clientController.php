@@ -708,6 +708,7 @@ class ClientController extends Controller
     $client = Client::with([
         'perkara' => function($query) {
             $query->with([
+                'suratKuasa',
                 'progres' => function($q) {
                     $q->orderBy('tanggal_progres', 'desc');
                 },

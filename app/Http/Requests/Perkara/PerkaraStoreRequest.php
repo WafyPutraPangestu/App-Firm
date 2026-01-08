@@ -22,10 +22,15 @@ class PerkaraStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // Validasi Perkara
             'jenis_perkara' => 'required|string|max:255',
             'deskripsi_perkara' => 'required|string',
-            'tanggal_mulai' => 'nullable|date | date_format:Y-m-d',
-            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai | after:tanggal_mulai | date_format:Y-m-d',
+            'tanggal_mulai' => 'nullable|date|date_format:Y-m-d', // Jika ingin manual input, tapi di view tidak ada inputnya (otomatis di service)
+            
+            // Validasi Surat Kuasa (Baru)
+            'nomor_surat' => 'nullable|string|max:255',
+            'tanggal_surat' => 'required|date|date_format:Y-m-d',
+            'file_surat' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048', // Max 2MB
         ];
     }
 }
