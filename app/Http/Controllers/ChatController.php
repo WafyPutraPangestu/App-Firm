@@ -332,4 +332,40 @@ class ChatController extends Controller
             'guest_token' => $token
         ]);
     }
+
+    public function deleteGuestConversation($guest_token)
+{
+    try {
+        // Hapus semua pesan dari guest ini
+        Chat::where('guest_token', $guest_token)->delete();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Percakapan guest berhasil dihapus'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Gagal menghapus percakapan'
+        ], 500);
+    }
+}
+
+public function deleteClientConversation($id_client)
+{
+    try {
+        // Hapus semua pesan dari client ini
+        Chat::where('id_client', $id_client)->delete();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Percakapan client berhasil dihapus'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Gagal menghapus percakapan'
+        ], 500);
+    }
+}
 }

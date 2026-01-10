@@ -16,6 +16,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::post('/reply-guest', [ChatController::class, 'replyToGuest']);           // POST
         Route::post('/reply-client', [ChatController::class, 'replyToClient']);         // POST
     });
+
+    // Untuk Admin
+Route::prefix('admin/api/chat')->middleware(['auth', 'admin'])->group(function () {
+    // Delete conversation guest
+    Route::delete('/delete-guest/{guest_token}', [ChatController::class, 'deleteGuestConversation']);
+    
+    // Delete conversation client
+    Route::delete('/delete-client/{id_client}', [ChatController::class, 'deleteClientConversation']);
+});
     
     Route::controller(ClientController::class)->prefix('admin/clients')->name('admin.clients.')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -31,6 +40,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     ->prefix('admin/perkaras')
     ->name('admin.perkara.')
     ->group(function () {
+        Route::get('{perkara}/client/{client}/edit', 'edit')->name('edit');
+        Route::put('/{perkara}/client/{client}', 'update')->name('update');
         Route::get('/{perkara}/client/{client}', 'show')->name('show');
         Route::get('/create/{client}', 'create')->name('create');
         Route::post('/{client}', 'store')->name('store');
@@ -46,9 +57,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     ->prefix('admin/progres')
     ->name('admin.progres.')
     ->group(function () {
-       Route::get('/{perkara}/client/{client}', 'create')->name('create');
-       Route::post('/{perkara}/client/{client}', 'store')->name('store');
-       Route::patch('/{invoice}/toggle-status', 
+        Route::get('/{perkara}/client/{client}/progres/{progres}/edit', [ProgresController::class, 'edit'])->name('edit');
+        Route::put('/{perkara}/client/{client}/progres/{progres}', [ProgresController::class, 'update'])->name('update');
+        Route::get('/{perkara}/client/{client}', 'create')->name('create');
+        Route::post('/{perkara}/client/{client}', 'store')->name('store');
+        Route::patch('/{invoice}/toggle-status', 
         [ProgresController::class, 'toggleStatus']
         )->name('toggle-status');
         Route::get('/{invoice}/download', 

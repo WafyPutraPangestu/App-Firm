@@ -12,6 +12,8 @@
     <x-chat-widget />
         
     @endunless
+
+    <x-notif/>
 </body>
 
 </html>

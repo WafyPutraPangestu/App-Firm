@@ -130,8 +130,6 @@
                     </div>
                 </div>
             </div>
-    
-            <!-- Progres Section -->
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                 <div class="bg-red-800 px-8 py-6">
                     <h2 class="text-2xl font-bold text-white flex items-center">
@@ -141,7 +139,7 @@
                         Progres Perkara
                     </h2>
                 </div>
-    
+            
                 <div class="p-8">
                     @forelse($perkara->progres->sortBy('urutan') as $progres)
                         <div class="mb-6 last:mb-0">
@@ -154,8 +152,9 @@
                                         <div class="w-1 h-full bg-red-800 mt-2"></div>
                                     @endif
                                 </div>
-    
+            
                                 <div class="flex-1 bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 shadow-md border border-gray-200 mb-4">
+                                    
                                     <div class="flex items-start justify-between mb-4">
                                         <div class="flex-1">
                                             <h3 class="text-xl font-bold text-gray-900 mb-2">{{ $progres->judul_progres }}</h3>
@@ -166,14 +165,20 @@
                                                 {{ \Carbon\Carbon::parse($progres->tanggal_progres)->format('d M Y') }}
                                             </p>
                                         </div>
-                                    </div>
-    
+            
+                                        <a href="{{  route('admin.progres.edit',['perkara' => $perkara, 'client' => $client, 'progres' => $progres])}}" class="ml-4 p-2 text-gray-400 hover:text-yellow-600 hover:bg-yellow-50 rounded-lg transition-all shadow-sm border border-transparent hover:border-yellow-200" title="Edit Progres">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </a>
+                                        </div>
+            
                                     @if($progres->keterangan)
                                         <div class="mb-4 p-4 bg-white rounded-lg border-l-4 border-green-500">
                                             <p class="text-gray-700">{{ $progres->keterangan }}</p>
                                         </div>
                                     @endif
-    
+            
                                     @if($progres->dokumen->count() > 0)
                                         <div class="mb-4">
                                             <h4 class="text-sm font-semibold text-gray-700 mb-3 flex items-center">
@@ -198,36 +203,34 @@
                                             </div>
                                         </div>
                                     @endif
-    
-                                    <!-- Invoice Section with Toggle -->
-                                   <!-- SESUDAH -->
-@if($progres->invoice->isNotEmpty())
-@foreach($progres->invoice as $inv)
-    <!-- Toggle Switch Status -->
-    <div class="flex items-center gap-3 mb-2">
-        <label class="relative inline-flex items-center cursor-pointer">
-            <input 
-                type="checkbox" 
-                class="sr-only peer invoice-toggle" 
-                data-invoice-id="{{ $inv->id }}"
-                {{ $inv->status === 'lunas' ? 'checked' : '' }}>
-            <div class="w-14 h-7 bg-red-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-green-500"></div>
-        </label>
-        <span class="invoice-status-text text-sm font-semibold transition-colors {{ $inv->status === 'lunas' ? 'text-green-700' : 'text-red-700' }}">
-            {{ $inv->status === 'lunas' ? 'Lunas' : 'Belum Bayar' }}
-        </span>
-    </div>
-    
-    <a href="{{ route('admin.progres.download', $inv->id) }}" 
-       class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all">
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-        </svg>
-        Download Invoice
-    </a>
-@endforeach
-@endif
+            
+                                    @if($progres->invoice->isNotEmpty())
+                                        @foreach($progres->invoice as $inv)
+                                            <div class="flex items-center gap-3 mb-2">
+                                                <label class="relative inline-flex items-center cursor-pointer">
+                                                    <input 
+                                                        type="checkbox" 
+                                                        class="sr-only peer invoice-toggle" 
+                                                        data-invoice-id="{{ $inv->id }}"
+                                                        {{ $inv->status === 'lunas' ? 'checked' : '' }}>
+                                                    <div class="w-14 h-7 bg-red-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-green-500"></div>
+                                                </label>
+                                                <span class="invoice-status-text text-sm font-semibold transition-colors {{ $inv->status === 'lunas' ? 'text-green-700' : 'text-red-700' }}">
+                                                    {{ $inv->status === 'lunas' ? 'Lunas' : 'Belum Bayar' }}
+                                                </span>
+                                            </div>
+                                            
+                                            <a href="{{ route('admin.progres.download', $inv->id) }}" 
+                                               class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                                </svg>
+                                                Download Invoice
+                                            </a>
+                                        @endforeach
+                                    @endif
+            
                                 </div>
                             </div>
                         </div>

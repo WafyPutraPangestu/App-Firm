@@ -19,6 +19,7 @@ class ChekAdmin
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Silakan login');;
         }
+        
         if (Auth::user()->role !== 'admin') {
             return redirect()->route('login')->with('error', 'You are not authorized to access this page');
         }

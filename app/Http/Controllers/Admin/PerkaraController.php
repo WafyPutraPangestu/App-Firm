@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Perkara\PerkaraStoreRequest;
+use App\Http\Requests\Perkara\PerkaraUpdateRequest;
 use App\Models\Client;
 use App\Models\Perkara;
 use App\Services\Perkara\PerkaraService;
@@ -77,6 +78,20 @@ class PerkaraController extends Controller
                 'perkara' => $perkara->id
             ])
             ->with('success', 'Perkara berhasil dibuka kembali.');
+    }
+    public function edit(PerkaraService $service, Perkara $perkara, Client $client)
+    {
+        return view('admin.perkara.edit', compact('client', 'perkara'));
+    }
+    public function update(PerkaraUpdateRequest $request, PerkaraService $service, Perkara $perkara, Client $client)
+    {
+        $service->update($request->validated(), $perkara);
+        return redirect()
+            ->route('admin.clients.show', [
+                'client' => $client->id,
+                'perkara' => $perkara->id
+            ])
+            ->with('success', 'Perkara berhasil diperbarui.');
     }
     
 }

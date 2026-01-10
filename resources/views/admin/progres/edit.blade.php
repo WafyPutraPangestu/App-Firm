@@ -6,9 +6,9 @@
             <div class="mb-8">
                 <div class="flex items-center gap-3 mb-2">
                     <div class="w-1 h-8 bg-red-800 rounded-full"></div>
-                    <h1 class="text-3xl font-bold text-gray-800">Tambah Progres Perkara</h1>
+                    <h1 class="text-3xl font-bold text-gray-800">Edit Progres Perkara</h1>
                 </div>
-                <p class="text-gray-600 ml-6">Lengkapi formulir di bawah untuk menambahkan progres baru</p>
+                <p class="text-gray-600 ml-6">Update informasi progres perkara</p>
             </div>
 
             <!-- Error Messages -->
@@ -51,7 +51,7 @@
 
             <!-- Form Container -->
             <form
-                action="{{ route('admin.progres.store', ['client' => $client->id, 'perkara' => $perkara->id]) }}"
+                action="{{ route('admin.progres.update', ['client' => $client->id, 'perkara' => $perkara->id, 'progres' => $progres->id]) }}"
                 method="POST" 
                 enctype="multipart/form-data"
                 x-data="{ 
@@ -72,6 +72,7 @@
                 }"
                 class="space-y-6">
                 @csrf
+                @method('PUT')
 
                 <!-- Data Progres Card -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -93,7 +94,7 @@
                             <input 
                                 type="text" 
                                 name="judul_progres" 
-                                value="{{ old('judul_progres') }}"
+                                value="{{ old('judul_progres', $progres->judul_progres) }}"
                                 class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-red-800 focus:border-transparent transition-all outline-none"
                                 placeholder="Contoh: Sidang Pertama"
                                 required>
@@ -108,7 +109,7 @@
                                 <input 
                                     type="date" 
                                     name="tanggal_progres" 
-                                    value="{{ old('tanggal_progres') }}"
+                                    value="{{ old('tanggal_progres', $progres->tanggal_progres) }}"
                                     class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-red-800 focus:border-transparent transition-all outline-none"
                                     required>
                             </div>
@@ -120,7 +121,7 @@
                                 <input 
                                     type="number" 
                                     name="urutan" 
-                                    value="{{ old('urutan') }}"
+                                    value="{{ old('urutan', $progres->urutan) }}"
                                     class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-red-800 focus:border-transparent transition-all outline-none"
                                     placeholder="1"
                                     min="1"
@@ -137,7 +138,7 @@
                                 name="keterangan" 
                                 rows="4"
                                 class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-red-800 focus:border-transparent transition-all outline-none resize-none"
-                                placeholder="Tambahkan keterangan atau catatan detail...">{{ old('keterangan') }}</textarea>
+                                placeholder="Tambahkan keterangan atau catatan detail...">{{ old('keterangan', $progres->keterangan) }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -154,10 +155,38 @@
                     </div>
 
                     <div class="p-6 space-y-5">
+                        <!-- Current Documents Display -->
+                        @if($progres->dokumen && $progres->dokumen->where('jenis_dokumen', 'progres')->count() > 0)
+                        <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <p class="text-sm font-semibold text-blue-800 mb-2">Dokumen Progres Saat Ini ({{ $progres->dokumen->where('jenis_dokumen', 'progres')->count() }} file)</p>
+                                    <div class="space-y-2">
+                                        @foreach($progres->dokumen->where('jenis_dokumen', 'progres') as $dok)
+                                        <div class="flex items-center justify-between bg-white rounded p-2">
+                                            <span class="text-xs text-blue-600 truncate flex-1">{{ basename($dok->file_path) }}</span>
+                                            <a 
+                                                href="{{ asset('storage/' . $dok->file_path) }}" 
+                                                target="_blank"
+                                                class="ml-2 px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors flex-shrink-0">
+                                                Lihat
+                                            </a>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
                         <!-- Upload Dokumen -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Dokumen Progres
+                                Dokumen Progres Baru
+                                <span class="text-gray-400 text-xs">(Opsional - upload untuk menambahkan dokumen)</span>
                             </label>
                             <div class="relative">
                                 <input 
@@ -183,12 +212,46 @@
                                     </div>
                                 </label>
                             </div>
+                            <p class="text-xs text-gray-500 mt-2">
+                                <svg class="w-4 h-4 inline text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                                File baru akan ditambahkan ke dokumen yang sudah ada
+                            </p>
                         </div>
+
+                        <!-- Current Invoices Display -->
+                        @if($progres->dokumen && $progres->dokumen->where('jenis_dokumen', 'invoice')->count() > 0)
+                        <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <div class="flex-1">
+                                    <p class="text-sm font-semibold text-green-800 mb-2">Dokumen Invoice Saat Ini ({{ $progres->dokumen->where('jenis_dokumen', 'invoice')->count() }} file)</p>
+                                    <div class="space-y-2">
+                                        @foreach($progres->dokumen->where('jenis_dokumen', 'invoice') as $dok)
+                                        <div class="flex items-center justify-between bg-white rounded p-2">
+                                            <span class="text-xs text-green-600 truncate flex-1">{{ basename($dok->file_path) }}</span>
+                                            <a 
+                                                href="{{ asset('storage/' . $dok->file_path) }}" 
+                                                target="_blank"
+                                                class="ml-2 px-2 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition-colors flex-shrink-0">
+                                                Lihat
+                                            </a>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
 
                         <!-- Upload Invoice -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Dokumen Invoice
+                                Dokumen Invoice Baru
+                                <span class="text-gray-400 text-xs">(Opsional - upload untuk menambahkan invoice)</span>
                             </label>
                             <div class="relative">
                                 <input 
@@ -214,6 +277,12 @@
                                     </div>
                                 </label>
                             </div>
+                            <p class="text-xs text-gray-500 mt-2">
+                                <svg class="w-4 h-4 inline text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                                File baru akan ditambahkan ke invoice yang sudah ada
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -231,7 +300,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
-                        Simpan Progres
+                        Update Progres
                     </button>
                 </div>
             </form>

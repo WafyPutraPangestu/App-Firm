@@ -1,106 +1,240 @@
 <x-layout>
-    <div class="">
-        <div class="">
-            <h1 class="text-2xl font-bold mb-6">Edit Client: {{ $client->nama_lengkap }}</h1>
-            
-            {{-- Perubahan 1: Route update & Method PUT --}}
-            <form action="{{ route('admin.clients.update', $client) }}" method="POST" class="space-y-4">
-                @method('PUT')
-                @csrf
+    <div class="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <!-- Header Section -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-red-800 rounded-2xl mb-4 shadow-lg">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">Edit Client</h1>
+                <p class="text-gray-600">Update information for <span class="font-semibold text-red-800">{{ $client->nama_lengkap }}</span></p>
+            </div>
 
-                {{-- Nama Lengkap --}}
-                <div>
-                    <label for="nama_lengkap" class="block text-sm font-medium text-gray-700">Full Name</label>
-                    <input type="text" name="nama_lengkap" id="nama_lengkap"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                        value="{{ old('nama_lengkap', $client->nama_lengkap) }}">
-                    @error('nama_lengkap')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+            <!-- Form Card -->
+            <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-red-800 to-red-900 px-8 py-6">
+                    <h2 class="text-xl font-semibold text-white">Client Information</h2>
+                    <p class="text-red-100 text-sm mt-1">Modify the details below to update client record</p>
                 </div>
 
-                {{-- Nama Perusahaan (Ditambahkan agar sama dengan Create) --}}
-                <div>
-                    <label for="nama_perusahaan" class="block text-sm font-medium text-gray-700">Company Name</label>
-                    <input type="text" name="nama_perusahaan" id="nama_perusahaan"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                        value="{{ old('nama_perusahaan', $client->nama_perusahaan) }}">
-                    @error('nama_perusahaan')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+                <form action="{{ route('admin.clients.update', $client) }}" method="POST" class="p-8 space-y-6">
+                    @method('PUT')
+                    @csrf
+                    
+                    <!-- Full Name -->
+                    <div class="group">
+                        <label for="nama_lengkap" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Full Name
+                            <span class="text-red-800">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="text" name="nama_lengkap" id="nama_lengkap"
+                                class="w-full border-2 border-gray-200 rounded-xl shadow-sm px-4 py-3 focus:border-red-800 focus:ring-4 focus:ring-red-100 transition-all duration-300 outline-none"
+                                placeholder="Enter full name"
+                                value="{{ old('nama_lengkap', $client->nama_lengkap) }}">
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400 group-focus-within:text-red-800 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        @error('nama_lengkap')
+                            <p class="text-red-600 text-sm mt-2 flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
-                {{-- Email --}}
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" name="email" id="email"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                        value="{{ old('email', $client->email) }}">
-                    @error('email')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+                    <!-- Company Name -->
+                    <div class="group">
+                        <label for="nama_perusahaan" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Company Name
+                            <span class="text-red-800">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="text" name="nama_perusahaan" id="nama_perusahaan"
+                                class="w-full border-2 border-gray-200 rounded-xl shadow-sm px-4 py-3 focus:border-red-800 focus:ring-4 focus:ring-red-100 transition-all duration-300 outline-none"
+                                placeholder="Enter company name"
+                                value="{{ old('nama_perusahaan', $client->nama_perusahaan) }}">
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400 group-focus-within:text-red-800 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        @error('nama_perusahaan')
+                            <p class="text-red-600 text-sm mt-2 flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
-                {{-- No HP --}}
-                <div>
-                    <label for="no_hp" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                    <input type="text" name="no_hp" id="no_hp"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                        value="{{ old('no_hp', $client->no_hp) }}">
-                    @error('no_hp')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+                    <!-- Two Column Layout for Email & Phone -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Email -->
+                        <div class="group">
+                            <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Email Address
+                                <span class="text-red-800">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="email" name="email" id="email"
+                                    class="w-full border-2 border-gray-200 rounded-xl shadow-sm px-4 py-3 focus:border-red-800 focus:ring-4 focus:ring-red-100 transition-all duration-300 outline-none"
+                                    placeholder="email@example.com"
+                                    value="{{ old('email', $client->email) }}">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <svg class="w-5 h-5 text-gray-400 group-focus-within:text-red-800 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            @error('email')
+                                <p class="text-red-600 text-sm mt-2 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
 
-                {{-- Alamat --}}
-                <div>
-                    <label for="alamat" class="block text-sm font-medium text-gray-700">Address</label>
-                    <input type="text" name="alamat" id="alamat"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-                        value="{{ old('alamat', $client->alamat) }}">
-                    @error('alamat')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+                        <!-- Phone -->
+                        <div class="group">
+                            <label for="no_hp" class="block text-sm font-semibold text-gray-700 mb-2">
+                                Phone Number
+                                <span class="text-red-800">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="text" name="no_hp" id="no_hp"
+                                    class="w-full border-2 border-gray-200 rounded-xl shadow-sm px-4 py-3 focus:border-red-800 focus:ring-4 focus:ring-red-100 transition-all duration-300 outline-none"
+                                    placeholder="+62 812 3456 7890"
+                                    value="{{ old('no_hp', $client->no_hp) }}">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <svg class="w-5 h-5 text-gray-400 group-focus-within:text-red-800 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            @error('no_hp')
+                                <p class="text-red-600 text-sm mt-2 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    </div>
 
-                {{-- Jenis Client (Dengan Alpine JS) --}}
-                {{-- Perubahan 2: Memasukkan value lama ke dalam fungsi clientApp() --}}
-                <div x-data="clientApp('{{ old('jenis_client', $client->jenis_client) }}')" x-init="fetchClients()" class="relative">
-                    <label for="jenis_client" class="block text-sm font-medium text-gray-700">
-                        Client Type
-                    </label>
+                    <!-- Address -->
+                    <div class="group">
+                        <label for="alamat" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Address
+                            <span class="text-red-800">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="text" name="alamat" id="alamat"
+                                class="w-full border-2 border-gray-200 rounded-xl shadow-sm px-4 py-3 focus:border-red-800 focus:ring-4 focus:ring-red-100 transition-all duration-300 outline-none"
+                                placeholder="Enter full address"
+                                value="{{ old('alamat', $client->alamat) }}">
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400 group-focus-within:text-red-800 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        @error('alamat')
+                            <p class="text-red-600 text-sm mt-2 flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
 
-                    {{-- x-model akan otomatis terisi karena kita passing value di x-data --}}
-                    <input type="text" name="jenis_client" id="jenis_client" x-model="search"
-                        @input.debounce.300ms="fetchClients" placeholder="ketik: retainer / litigasi / non"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <!-- Client Type with Alpine.js -->
+                    <div x-data="clientApp('{{ old('jenis_client', $client->jenis_client) }}')" x-init="fetchClients()" class="relative group">
+                        <label for="jenis_client" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Client Type
+                            <span class="text-red-800">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="text" name="jenis_client" id="jenis_client" x-model="search"
+                                @input.debounce.300ms="fetchClients" 
+                                placeholder="Type: retainer / litigasi / non"
+                                class="w-full border-2 border-gray-200 rounded-xl shadow-sm px-4 py-3 focus:border-red-800 focus:ring-4 focus:ring-red-100 transition-all duration-300 outline-none"
+                                autocomplete="off">
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400 group-focus-within:text-red-800 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                </svg>
+                            </div>
+                        </div>
 
-                    @error('jenis_client')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+                        @error('jenis_client')
+                            <p class="text-red-600 text-sm mt-2 flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                                {{ $message }}
+                            </p>
+                        @enderror
 
-                    <ul x-show="clients.length > 0 && search !== ''" @click.outside="clients = []"
-                        class="absolute z-10 w-full bg-white border rounded-md mt-1 shadow" style="display: none;">
-                        <template x-for="client in uniqueJenisClient" :key="client">
-                            <li @click="selectJenis(client)"
-                                class="px-4 py-2 cursor-pointer hover:bg-gray-100 capitalize"
-                                x-text="client.replace('_',' ')"></li>
-                        </template>
-                    </ul>
-                </div>
+                        <!-- Dropdown hasil search -->
+                        <ul x-show="clients.length > 0 && search !== ''" 
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 scale-95"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-95"
+                            @click.outside="clients = []"
+                            class="absolute z-10 w-full bg-white border-2 border-red-200 rounded-xl mt-2 shadow-xl max-h-60 overflow-auto"
+                            style="display: none;">
+                            <template x-for="client in uniqueJenisClient" :key="client">
+                                <li @click="selectJenis(client)"
+                                    class="px-4 py-3 cursor-pointer hover:bg-red-50 transition-colors capitalize border-b border-gray-100 last:border-b-0 flex items-center"
+                                    x-text="client.replace('_',' ')">
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
 
-                <div>
-                    <button type="submit"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300">
-                        Update Client
-                    </button>
-                </div>
-            </form>
+                    <!-- Action Buttons -->
+                    <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+                        <button type="button" onclick="history.back()"
+                            class="px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-all duration-300 shadow-sm">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                            class="px-8 py-3 bg-gradient-to-r from-red-800 to-red-900 text-white font-semibold rounded-xl hover:from-red-900 hover:to-red-950 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Update Client</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Info Footer -->
+            <div class="mt-6 text-center text-sm text-gray-500">
+                <p>Fields marked with <span class="text-red-800 font-semibold">*</span> are required</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Perubahan 3: Menerima parameter initialValue agar input terisi otomatis
         function clientApp(initialValue = '') {
             return {
                 search: initialValue, // Set nilai awal dari database/old input

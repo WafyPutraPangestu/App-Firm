@@ -38,7 +38,7 @@
             scroll-behavior: smooth;
         }
     </style>
-    <div class="parallax-element bg-red-900 text-white grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
+    <div id="home" class="parallax-element bg-red-900 text-white grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
         <div class="flex justify-center items-center px-4 sm:px-6 md:px-8 lg:px-12 py-8 lg:py-0">
             <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center lg:text-left">
                 Kami adalah <strong class="text-yellow-100">pilihan yang terbaik</strong> untuk menyelesaikan setiap permasalahan hukum anda.
@@ -56,7 +56,7 @@
                     class="bg-parallax-layer absolute left-0 w-full object-cover opacity-30">
             </div>
         </div>
-        <div class="parallax-element relative z-10 px-4 sm:px-6 md:px-12 lg:px-20 py-12 sm:py-16 md:py-20 text-white">
+        <div id="about" class="parallax-element relative z-10 px-4 sm:px-6 md:px-12 lg:px-20 py-12 sm:py-16 md:py-20 text-white">
             <div class="rounded-lg p-4 sm:p-6 md:p-8 lg:p-12 space-y-4 sm:space-y-6">
                 <p class="text-justify text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed">
                     ATS LAW FIRM pertama kali berdiri pada tanggal 27 Oktober 2015 di Jakarta dengan nama Ahmad,
@@ -138,7 +138,7 @@
             </p>
         </div>
     </div>
-    <div class="parallax-element bg-gray-200 grid grid-cols-1 lg:grid-cols-2 px-4 sm:px-6 md:px-12 lg:px-20 py-12 sm:py-16 md:py-20 gap-6 lg:gap-8">
+    <div id="profile" class="parallax-element bg-gray-200 grid grid-cols-1 lg:grid-cols-2 px-4 sm:px-6 md:px-12 lg:px-20 py-12 sm:py-16 md:py-20 gap-6 lg:gap-8">
         <div class="w-full flex justify-center items-center">
             <img src="{{ Vite::asset('resources/asset/home/owner.png') }}" alt="" class="w-full max-w-md lg:max-w-full h-auto object-contain">
         </div>

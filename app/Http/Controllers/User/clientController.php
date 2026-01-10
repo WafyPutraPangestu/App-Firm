@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Invoice;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash; // <--- WAJIB IMPORT INI
@@ -18,6 +19,9 @@ class ClientController extends Controller
     {
         if (session()->has('client_id')) {
             return redirect()->route('user.clients.dashboard', session('client_id'));
+        }
+        if(Auth::check()){
+            return redirect()->route('admin.dashboard');
         }
         
         // Get paginated clients

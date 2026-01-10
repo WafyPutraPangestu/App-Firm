@@ -23,6 +23,11 @@ Route::get('/clients/search', function (Request $request) {
 });
 
 Route::middleware('admin')->group(function () {
+  Route::get('/api/clients/{client}/status', function (Client $client) {
+    return response()->json([
+        'status' => $client->status
+    ]);
+});
   Route::put('/api/clients/{client}/update-status', function (Request $request, Client $client) {
     
     $request->validate([

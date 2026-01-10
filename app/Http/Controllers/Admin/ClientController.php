@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\User;
 use App\Services\Client\ClientService;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class ClientController extends Controller
 {
@@ -47,27 +48,62 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         $client->delete();
-        return redirect()->route('admin.clients.index')->with('success', 'Client deleted successfully.');
+        return redirect()->route('admin.clients.index')->with('success', 'Berhasil menghapus client.');
     }
     public function show(ClientService $service, Client $client)
     {
         $client = $service->show($client);
+        $perkara = $service->getPerkaraPaginated($client, 5);
         $countClients = $service->countClients();
        
-        return view('admin.client.show', compact('client','countClients'));
+        return view('admin.client.show', compact('client','countClients','perkara'));
     }
     public function generateKey(Client $client)
     {
+       
         $clientKey = bin2hex(random_bytes(2));
-        // $hashedKey = Hash::make($clientKey);
-        $client->update([
-            // 'client_key' =>  $hashedKey,
-            'client_key' =>  $clientKey,
-            'client_key_expired_at' => now()->addMonth(),
-        ]);
-
-     
-
-        return redirect()->route('admin.clients.index')->with('success', 'Client key generated successfully.');
+        $expiredDate = now();
+    
+        switch ($client->level) { 
+            case 'retainer':
+                $expiredDate = now()->addMonth();
+                break;
+            case 'litigasi':
+                $expiredDate = now()->addYear(1);
+                break;
+            case 'non_litigasi':
+                $expiredDate = now()->addMonth(5);
+                break;
+            default:
+                $expiredDate = now()->addMonth();
+                break;
+        }
+    
+        try {
+    
+            $client->update([
+                'client_key' => $clientKey,
+                'client_key_expired_at' => $expiredDate,
+            ]);
+    
+            $dataClient = [
+                'nama_lengkap' => $client->nama_lengkap,
+                'email' => $client->email,
+                'client_key' => $clientKey,
+                'client_key_expired_at' => $expiredDate
+            ];
+    
+         
+            Mail::to($client->email)->send(new \App\Mail\SendMail($dataClient));
+    
+         
+            return redirect()->route('admin.clients.index')
+                ->with('success', 'Key berhasil dibuat dan email telah terkirim ke ' . $client->nama_lengkap);
+    
+        } catch (\Exception $e) {
+           
+            return redirect()->back()
+                ->with('error', 'Gagal mengirim email: ' . $e->getMessage());
+        }
     }
 }

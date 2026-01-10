@@ -7,6 +7,7 @@ use App\Http\Requests\Progres\ProgresStoreRequest;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Perkara;
+use App\Models\ProgresPerkara;
 use App\Services\progres\ProgresService;
 use Illuminate\Http\Request;
 
@@ -78,5 +79,30 @@ class ProgresController extends Controller
         
         return response()->download($filePath);
     }
+
+    public function edit(Perkara $perkara, Client $client, ProgresPerkara $progres)
+{
+    // Validasi keamanan: Pastikan progres ini milik perkara ini, dan perkara milik client ini
+    abort_unless($perkara->client_id === $client->id, 404);
+    abort_unless($progres->perkara_id === $perkara->id, 404);
+
+    return view('admin.progres.edit', compact('client', 'perkara', 'progres'));
+}
+
+public function update(ProgresStoreRequest $request, ProgresService $service, Perkara $perkara, Client $client, ProgresPerkara $progres)
+{
+    abort_unless($perkara->client_id === $client->id, 404);
+    abort_unless($progres->perkara_id === $perkara->id, 404);
+
+    // Kirim data yang sudah divalidasi dan objek progres ke service
+    $service->update($request->validated(), $progres);
+
+    return redirect()
+        ->route('admin.perkara.show', [
+            'client' => $client->id,
+            'perkara' => $perkara->id
+        ])
+        ->with('success', 'Progres berhasil diperbarui.');
+}
 
 }

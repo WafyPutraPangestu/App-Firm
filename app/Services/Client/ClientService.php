@@ -37,8 +37,15 @@ class ClientService
     }
     public function show(Client $client): Client
     {
-        $client->load(['perkara.suratKuasa']);
+        // $client->load(['perkara.suratKuasa']);
         return $client;
+    }
+    public function getPerkaraPaginated(Client $client, int $perPage = 1)
+    {
+        return $client->perkara()
+            ->with('suratKuasa') // Tetap load relasi surat kuasa
+            ->latest('tanggal_mulai') // Urutkan dari yang terbaru
+            ->simplePaginate($perPage);
     }
     public function countClients(): int
     {

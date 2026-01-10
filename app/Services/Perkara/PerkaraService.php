@@ -36,4 +36,45 @@ class PerkaraService
             return $perkara;
         });
     }
+    public function update(array $data, $perkara)
+    {
+        
+        return DB::transaction(function () use ($data, $perkara) {
+            
+            $perkara->update([
+                'jenis_perkara' => $data['jenis_perkara'],
+                'deskripsi_perkara' => $data['deskripsi_perkara'],
+            ]);
+
+             if (request()->hasFile('file_surat')) {
+                // Hapus file lama jika ada
+                $suratKuasa = $perkara->suratKuasa;
+                if ($suratKuasa && Storage::disk('public')->exists($suratKuasa->file_path)) {
+                    Storage::disk('public')->delete($suratKuasa->file_path);
+                }
+
+                $filePath = request()->file('file_surat')->store('surat-kuasa', 'public');
+                
+                if ($suratKuasa) {
+                    // Update existing record
+                    $suratKuasa->update([
+                        'nomor_surat' => $data['nomor_surat'] ?? null,
+                        'tanggal_surat' => $data['tanggal_surat'],
+                        'file_path' => $filePath,
+                    ]);
+                } else {
+                    // Create new record
+                    SuratKuasa::create([
+                        'perkara_id' => $perkara->id,
+                        'uploaded_by' => Auth::id(),
+                        'nomor_surat' => $data['nomor_surat'] ?? null,
+                        'tanggal_surat' => $data['tanggal_surat'],
+                        'file_path' => $filePath,
+                    ]);
+                }
+            }
+
+            return $perkara;
+        });
+    }
 }
